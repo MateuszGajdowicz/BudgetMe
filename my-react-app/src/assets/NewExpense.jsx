@@ -2,6 +2,7 @@ import { useState } from "react";
 import { db, auth } from "../firebase";
 
 import { addDoc, collection } from "firebase/firestore";
+import './NewExpense.css'
 
 
 function AddExpense({isLogged, fetchExpenses}){
