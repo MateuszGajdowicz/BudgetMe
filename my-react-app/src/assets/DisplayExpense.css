@@ -1,13 +1,13 @@
 .ExpensesContainer{
     position: absolute;
-    max-height: 70%;
+    max-height: 80%;
     overflow: scroll;
-    left: 10%;
+    left: 27%;
     width: 350px;
     display: flex;
     flex-direction: column;
-    gap:30px;
-    top: 20%;
+    gap:20px;
+    top: 10%;
     
 
 }

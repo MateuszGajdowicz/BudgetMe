@@ -3,27 +3,10 @@ import { useEffect, useState } from "react";
 import './DisplayExpense.css'
 
 function DisplayExpense({expensesList, setExpensesList,DeleteExpense}){
-    const [expenseSum, setExpenseSum] = useState(0);
-
-    function SumExpenses(array){
-        let Sum=0;
-        for(let i =0;i<array.length;i++){
-            Sum+= parseFloat(array[i].amount);
-
-        }
-        return Sum
-
-    }
-    useEffect(()=>{
-        const sum = SumExpenses(expensesList)
-        setExpenseSum(sum);
-    },[expensesList])
-
 
     return(
         <>
 
-        <h1>Twoje ostatnie wydatki</h1>
         <div className="ExpensesContainer">
         {expensesList.map((element, index)=>(
             <>

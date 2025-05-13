@@ -1,6 +1,23 @@
 import { useEffect, useState } from "react";
+import "./Summary.css"
 
-function Summary({expensesList}){
+function Summary({expensesList,setExpenseSum,expenseSum}){
+
+    function SumExpenses(array){
+        let Sum=0;
+        for(let i =0;i<array.length;i++){
+            Sum+= parseFloat(array[i].amount);
+
+        }
+        return Sum
+
+    }
+    useEffect(()=>{
+        const sum = SumExpenses(expensesList)
+        setExpenseSum(sum);
+    },[expensesList])
+
+
     const [SummaryExpenses, setSummaryExpenses] = useState( {
         Food:0,
         Attractions:0,
@@ -51,17 +68,41 @@ function Summary({expensesList}){
                             Others:others
         })
     }
+
+    function BiggestExpenses(){
+        let maxCategory='';
+        let maxAmount = 0;
+        for(let sums in SummaryExpenses){
+            if(SummaryExpenses[sums]>maxAmount){
+                maxAmount=SummaryExpenses[sums]
+                maxCategory=sums;
+            }
+        }
+        return{maxCategory:maxCategory, maxAmount:maxAmount }
+
+    }
     useEffect(()=>{
         CalculateExpenses();
+
     },[expensesList])
+    const biggest = BiggestExpenses();
+
+
     return(
         <>
-        <h1>Na jedzenie wydałeś {SummaryExpenses.Food} zł</h1>
-        <h1>Na rozrywkę wydałeś {SummaryExpenses.Attractions} zł</h1>
-        <h1>Na sport wydałeś {SummaryExpenses.Sport} zł</h1>
-        <h1>Na pojazdy wydałeś {SummaryExpenses.Vehicles} zł</h1>
-        <h1>Na rachunki wydałeś {SummaryExpenses.Bills} zł</h1>
-        <h1>Na inne wydałeś {SummaryExpenses.Others} zł</h1>
+        
+        <div className="SummaryContainer">
+        <h3>Łącznie wydałeś <strong>{expenseSum} zł</strong></h3>
+        <h3>🍕 Jedzenie: {SummaryExpenses.Food} zł</h3>
+        <h3>🎉 Rozrywka: {SummaryExpenses.Attractions} zł</h3>
+        <h3>🤾 Sport: {SummaryExpenses.Sport} zł</h3>
+        <h3>🚗 Pojazdy: {SummaryExpenses.Vehicles} zł</h3>
+        <h3>💴 Rachunki: {SummaryExpenses.Bills} zł</h3>
+        <h3>➕ Inne: {SummaryExpenses.Others} zł</h3>
+        <h3>Najwięcej wydajesz na {biggest.maxCategory} - {biggest.maxAmount} zł</h3>
+            
+        </div>
+
         </>
     );
 }

@@ -11,4 +11,32 @@ body {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
-  
+  nav{
+    display: flex;
+    background-color: white;
+    justify-content: end;
+    position: relative;
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+background-color: hsl(13, 84%, 87%);
+    ul{
+      display: flex;
+      list-style-type: none;
+      padding-right: 20px;
+      height: 100%;
+      margin: 0;
+      li{
+        padding: 13px 13px;
+        cursor: pointer ;
+
+      }
+      li:hover{
+        background-color: hsl(13, 84%, 77%);
+
+
+      }
+      #BudgetMe{
+        position: absolute;
+        left: 10px;
+      }
+    }
+  }

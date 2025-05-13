@@ -9,11 +9,15 @@ import LogIn from "./assets/LogIn";
 import AddExpense from "./assets/NewExpense";
 import DisplayExpense from "./assets/DisplayExpense";
 import Summary from "./assets/Summary";
+import Budget from "./assets/Budget";
 function App() {
   const [isRegistered, setIsRegistered] = useState(true)
-  const [isLogged, setIsLogged]=useState(false)
+  const [isLogged, setIsLogged]=useState(true)
   const [expensesList, setExpensesList] = useState([])
   const [user,setUser] = useState(null)
+  const [expenseSum, setExpenseSum] = useState(0);
+
+  const [budget, setBudget] = useState(0)
 
   function LogOut(){
     signOut(auth)
@@ -64,6 +68,19 @@ function App() {
 
   return (
     <>
+    <nav>
+      <ul>
+        <li id="BudgetMe">BudgetMe</li>
+        <li>Strona główna</li>
+        <li>Wydatki</li>
+        <li>Budżet</li>
+        <li>Cele</li>
+        <li>Statystyki</li>
+        <li>Ustawienia</li>
+        <li>Profil</li>
+        <li onClick={LogOut}>Wyloguj</li>
+      </ul>
+    </nav>
       {
         !isLogged ? (
           <>
@@ -76,13 +93,13 @@ function App() {
           </>
         ) : (
           <>
-          <button className="logOutButton" onClick={LogOut}>Wyloguj</button>
             {
               user && (
                 <>
-                  {/* <AddExpense isLogged={isLogged} fetchExpenses={fetchExpenses} /> */}
+                  <AddExpense isLogged={isLogged} fetchExpenses={fetchExpenses} />
                   <DisplayExpense DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList} />
-                  {/* <Summary expensesList={expensesList}/> */}
+                  <Summary expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
+                  <Budget budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
                 </>
               )
             }
