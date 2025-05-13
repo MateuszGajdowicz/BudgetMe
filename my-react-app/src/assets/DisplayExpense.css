@@ -1,0 +1,33 @@
+.ExpensesContainer{
+    position: absolute;
+    max-height: 70%;
+    overflow: scroll;
+    left: 10%;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap:30px;
+    top: 20%;
+    
+
+}
+.SingleExpenseContainer{
+    background-color: white;
+    padding-left: 10px;
+    border-radius: 30px;
+    position: relative;
+    height:auto;
+    border:5px solid hsl(19, 84%, 72%);
+    button{
+        position: absolute;
+        right: 15%;
+        top: 40%;
+        padding: 15px;
+        border-radius: 15px;
+        cursor: pointer;
+    }
+
+}
+::-webkit-scrollbar {
+    display: none;
+  }

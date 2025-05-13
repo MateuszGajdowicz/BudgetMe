@@ -1,13 +1,14 @@
 // src/App.jsx
 import { useState, useEffect } from "react";
 import { auth, db } from "./firebase";
+import "./App.css"
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, query, where, getDocs, deleteDoc,doc } from "firebase/firestore";
 import SignUp from "./assets/SignUp";
 import LogIn from "./assets/LogIn";
 import AddExpense from "./assets/NewExpense";
 import DisplayExpense from "./assets/DisplayExpense";
-
+import Summary from "./assets/Summary";
 function App() {
   const [isRegistered, setIsRegistered] = useState(true)
   const [isLogged, setIsLogged]=useState(false)
@@ -75,12 +76,13 @@ function App() {
           </>
         ) : (
           <>
-          <button onClick={LogOut}>Wyloguj</button>
+          <button className="logOutButton" onClick={LogOut}>Wyloguj</button>
             {
               user && (
                 <>
-                  <AddExpense isLogged={isLogged} fetchExpenses={fetchExpenses} />
+                  {/* <AddExpense isLogged={isLogged} fetchExpenses={fetchExpenses} /> */}
                   <DisplayExpense DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList} />
+                  {/* <Summary expensesList={expensesList}/> */}
                 </>
               )
             }

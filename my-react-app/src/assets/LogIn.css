@@ -1,0 +1,45 @@
+.LogInContainer,.SignUpContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    top:30%;
+    transform: translateX(-50%);
+    left: 50%;
+    width: 15%;
+    height: auto;
+    gap: 10px;
+    padding-right: 40px;
+    padding-left: 40px;
+    background-color: hsl(19, 84%, 82%);
+    border-radius: 40px;
+    border: 10px white solid;
+    align-items:center;
+    input{
+        height: 40px;
+        border-radius: 15px;
+        width: 100%;
+    }
+    button{
+        height: 30px;
+        width: 50%;
+        border-radius: 10px;
+        border:3px white solid;
+        background-color: hsl(0, 61%, 88%);
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+    button:hover{
+        background-color: hsl(0, 61%, 78%);
+    }
+    p{
+        cursor: pointer;}
+}
+.logOutButton{
+    position: absolute;
+    right: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: hsl(0, 61%, 78%);
+    cursor: pointer;
+}
