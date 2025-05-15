@@ -17,6 +17,7 @@ function App() {
   const [expensesList, setExpensesList] = useState([])
   const [user,setUser] = useState(null)
   const [expenseSum, setExpenseSum] = useState(0);
+  const [collectedMoney, setCollectedMoney] = useState(0)
 
   const [budget, setBudget] = useState(0)
 
@@ -100,8 +101,8 @@ function App() {
                   <AddExpense isLogged={isLogged} fetchExpenses={fetchExpenses} />
                   <DisplayExpense DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList} />
                   <Summary expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
-                  <Budget user = {user}budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
-                  <GoalBudget user = {user}/>
+                  <Budget collectedMoney={collectedMoney}user = {user}budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
+                  <GoalBudget collectedMoney={collectedMoney} setCollectedMoney={setCollectedMoney}user = {user}/>
                 </>
               )
             }

@@ -3,7 +3,7 @@ import { db, auth } from "../firebase";
 import { useEffect, useState } from 'react';
 import './Budget.css'
 import { addDoc, collection, doc, getDoc, getDocs, query,updateDoc,where  } from "firebase/firestore";
-function Budget({budget,setBudget,expenseSum,user}){
+function Budget({budget,setBudget,expenseSum,user,collectedMoney}){
     const [budgetInputValue, setBudgetInputValue]= useState(0)
     const [BudgetLeft, setBudgetLeft] = useState(null)
     const [existingDocID, setExistingDocID] = useState(null)
@@ -27,7 +27,6 @@ function Budget({budget,setBudget,expenseSum,user}){
             }
 
             alert("Zmieniono budżet")
-            setBudget(parseFloat(budgetInputValue))
             fetchBudget()
             setIsChangeVisible(false)
 
@@ -56,11 +55,11 @@ function Budget({budget,setBudget,expenseSum,user}){
     let budgetLeftValue=0;
 
     useEffect(()=>{
-        budgetLeftValue = budget-expenseSum;
+        budgetLeftValue = budget-expenseSum-collectedMoney;
         setBudgetLeft(budgetLeftValue)
         CheckBudgetLeft();
 
-    }, [expenseSum, budget])
+    }, [expenseSum, budget, collectedMoney])
 
     function CheckBudgetLeft(){
         if(budgetLeftValue>=0.8*budget ){
