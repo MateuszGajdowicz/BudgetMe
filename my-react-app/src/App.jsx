@@ -10,6 +10,7 @@ import AddExpense from "./assets/NewExpense";
 import DisplayExpense from "./assets/DisplayExpense";
 import Summary from "./assets/Summary";
 import Budget from "./assets/Budget";
+import GoalBudget from "./assets/GoalBudget";
 function App() {
   const [isRegistered, setIsRegistered] = useState(true)
   const [isLogged, setIsLogged]=useState(true)
@@ -99,7 +100,8 @@ function App() {
                   <AddExpense isLogged={isLogged} fetchExpenses={fetchExpenses} />
                   <DisplayExpense DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList} />
                   <Summary expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
-                  <Budget budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
+                  <Budget user = {user}budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
+                  <GoalBudget user = {user}/>
                 </>
               )
             }
