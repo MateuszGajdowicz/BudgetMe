@@ -86,7 +86,7 @@ function GoalBudget({user,collectedMoney,setCollectedMoney}){
                 await fetchGoal()
                 alert("Dodano kwotę")
                 setAddedMoney("")
-
+ 
 
             }
 

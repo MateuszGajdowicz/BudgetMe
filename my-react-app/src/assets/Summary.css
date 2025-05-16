@@ -4,6 +4,7 @@
     flex-direction: column;
     top: 52%;
     height: 40%;
+    width: 20%;
     background-color: white;
     left: 8%;
     justify-content: space-around;
@@ -16,4 +17,20 @@
         margin: 0;
     }
 
+}
+@media (min-width:1920px) {
+    .SummaryContainer{
+        font-size: 1.3em
+    }
+    
+}
+@media (max-width:700px){
+    .SummaryContainer{
+        position: relative;
+        width: 70%;
+        left: auto;
+        height: 300px;
+        margin: 20px;
+        margin-top: 50px;
+    }
 }

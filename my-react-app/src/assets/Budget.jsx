@@ -75,10 +75,13 @@ function Budget({budget,setBudget,expenseSum,user,collectedMoney}){
         else if(budgetLeftValue>=0*budget && budgetLeftValue<0.3*budget){
             setbudgetMessage("Klepiemy biede :((")
         }
+        else if(budgetLeftValue<=0 ){
+            setbudgetMessage("Nie masz już środków do wydania!!!")
 
         
 
     }
+}
     return(
         <div className="BudgetContainer">
             <h1>Twój budżet to: {budget} zł</h1>

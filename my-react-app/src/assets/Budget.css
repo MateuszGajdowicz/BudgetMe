@@ -1,8 +1,9 @@
 .BudgetContainer{
     position: absolute;
     top: 10%;
-    height: auto;
-    width: auto;
+    height: 30%;
+    width: 25%;
+
     background-color: hsl(19, 84%, 82%);
     right:8%;
     padding: 10px;
@@ -15,4 +16,10 @@
     }
     
 
+}
+@media (min-width:1920px) {
+    .BudgetContainer{
+        font-size: 1.3em;
+    }
+    
 }
