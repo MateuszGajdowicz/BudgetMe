@@ -8,7 +8,7 @@ function DisplayExpense({expensesList, setExpensesList,DeleteExpense,displayedEx
 
     const CurrentTime = new Date()
     const LastWeekDate = new Date();
-    LastWeekDate.setDate(CurrentTime.getDate()-1);
+    LastWeekDate.setDate(CurrentTime.getDate()-7);
 
     const LastMonthDate = new Date();
     LastMonthDate.setMonth(CurrentTime.getMonth()-1);
