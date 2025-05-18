@@ -44,11 +44,11 @@
 
 @media (max-width:700px) {
     .ExpensesContainer{
-        width: 70%;
+        width: 80%;
         position: relative;
-        left: auto;
         top: auto;
         margin: 20px;
+        left:6%;
     }
     
 }

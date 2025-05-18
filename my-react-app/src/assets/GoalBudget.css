@@ -43,7 +43,8 @@ progress::-webkit-progress-value {
   .GoalBudgetContainer{
     position: relative;
     width: 70%;
-    left: auto;
+    left: 10%;
+    margin-bottom: 50px;
   }
   
 }

@@ -67,6 +67,21 @@ function App() {
       
     }
   },[user])
+
+  // useEffect(()=>{
+  // const Options = document.getElementById("Options");
+  // const nav = document.querySelector("nav");
+  // Options.addEventListener('mouseenter', ()=>{
+  //   nav.style.display = "flex";
+
+  // });
+  // if(nav.style.)
+  //   nav.addEventListener('mouseout', ()=>{
+  //   nav.style.display = "none";
+
+  // }),[]})
+
+
   
 
 
@@ -85,6 +100,7 @@ function App() {
         <li onClick={LogOut}>Wyloguj</li>
       </ul>
     </nav>
+    <h1 id="Options">...</h1>
       {
         !isLogged ? (
           <>

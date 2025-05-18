@@ -98,6 +98,7 @@ function GoalBudget({user,collectedMoney,setCollectedMoney}){
     }
     useEffect(()=>{
         fetchGoal()
+        DeleteCollectedMoney()
     },[user])
 
     useEffect(()=>{
