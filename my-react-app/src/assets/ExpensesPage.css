@@ -1,0 +1,14 @@
+.FilterExpensesContainer{
+    position: absolute;
+    bottom: 10%;
+    width: 21%;
+    height: 30%;
+    left: 5%;
+    background-color: red;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+
+}

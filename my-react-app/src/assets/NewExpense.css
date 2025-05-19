@@ -53,3 +53,9 @@
     }
     
 }
+
+/*W podstronie*/
+
+.expensesPage .AddExpenseContainer{
+    left: 5%;
+}

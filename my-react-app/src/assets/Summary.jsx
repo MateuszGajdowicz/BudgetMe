@@ -40,7 +40,7 @@ function Summary({expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
         let vehicles = 0;
         let bills=0;
         let Beauty = 0;
-        let Clothes =9;
+        let Clothes =0;
         let Education = 0;
         let Health = 0;
         let Trips = 0;

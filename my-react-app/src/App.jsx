@@ -11,14 +11,17 @@ import DisplayExpense from "./assets/DisplayExpense";
 import Summary from "./assets/Summary";
 import Budget from "./assets/Budget";
 import GoalBudget from "./assets/GoalBudget";
+import ExpensesPage from "./assets/ExpensesPage";
 function App() {
   const [isRegistered, setIsRegistered] = useState(true)
-  const [isLogged, setIsLogged]=useState(false)
+  const [isLogged, setIsLogged]=useState(true)
   const [expensesList, setExpensesList] = useState([])
   const [user,setUser] = useState(null)
   const [expenseSum, setExpenseSum] = useState(0);
   const [collectedMoney, setCollectedMoney] = useState(0)
   const [displayedExpensesList, setDisplayedExpensesList] = useState(expensesList)
+
+  const [isExpensesPageVisible, setIsExpensesPageVisible] = useState(true)
 
 
   const [budget, setBudget] = useState(0)
@@ -89,7 +92,7 @@ function App() {
     <>
 
       {
-        !user ? (
+        !isLogged ? (
           <>
             {
               isRegistered ?
@@ -117,12 +120,20 @@ function App() {
       </ul>
     </nav>
     <h1 id="Options">...</h1>
-                
+
+
+                {!isExpensesPageVisible? 
+                <>
                   <AddExpense user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} />
                   <DisplayExpense setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList} />
                   <Summary displayedExpensesList={displayedExpensesList} expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
                   <GoalBudget collectedMoney={collectedMoney} setCollectedMoney={setCollectedMoney}user = {user}/>
                   <Budget collectedMoney={collectedMoney}user = {user}budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
+                  </>
+                :<ExpensesPage setExpenseSum={setExpenseSum} expenseSum={expenseSum}  user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList}/>
+                }
+
+
                 </>
               )
             }

@@ -4,6 +4,17 @@ import './DisplayExpense.css'
 
 function DisplayExpense({expensesList, setExpensesList,DeleteExpense,displayedExpensesList,setDisplayedExpensesList}){
 
+    const [isListDisplayed, setIsListDisplayed] = useState(true)
+
+    useEffect(()=>{
+        if(displayedExpensesList.length===0){
+        setIsListDisplayed(false)
+        }
+        else{
+            setIsListDisplayed(true)
+        }
+
+    },[displayedExpensesList])
 
 
     const CurrentTime = new Date()
@@ -70,8 +81,9 @@ function DisplayExpense({expensesList, setExpensesList,DeleteExpense,displayedEx
         </select>
     
 
-        {displayedExpensesList.map((element, index)=>(
-            <>
+        {isListDisplayed?
+        
+        (displayedExpensesList.map((element, index)=>(
 
             <div className="SingleExpenseContainer"key={index}>
                 <h1>{`${element.name} - ${element.number}`}</h1>
@@ -82,11 +94,18 @@ function DisplayExpense({expensesList, setExpensesList,DeleteExpense,displayedEx
             .toLocaleDateString("pl-PL")} ${new Date(element.date.seconds * 1000)
             .toLocaleTimeString("pl-PL", { hour: '2-digit', minute: '2-digit' })}`}</h2>
             <button onClick={()=>{DeleteExpense(element.id)}}>Usuń</button>
-            </div>
-            </>
+            </div>)))
+            :
+            (
+                <h1>Nie udało się znaleźć żadnych wydatków</h1>
+            )
+        
+            
+    
 
 
-        ))}
+
+}
 
         </div>
 

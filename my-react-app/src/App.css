@@ -17,7 +17,7 @@ body {
     justify-content: end;
     position: fixed;
     width: 100%;
-    z-index: 10000;
+    z-index: 10000000;
 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 background-color: hsl(13, 84%, 87%);
     ul{

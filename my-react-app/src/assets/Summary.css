@@ -34,3 +34,15 @@
         margin-top: 50px;
     }
 }
+
+
+
+/* W podstronie*/
+.expensesPage .SummaryContainer{
+    right: 5%;
+    left: auto;
+    top: 10%;
+    height: 80%;
+    width:25%
+    
+}

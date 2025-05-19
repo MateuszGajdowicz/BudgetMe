@@ -11,6 +11,7 @@ function LogIn({setIsLogged,setIsRegistered}){
         try{
             await signInWithEmailAndPassword(auth, email,password);
             setMessage(`Zalogowano jako ${email}`)
+            setIsLogged(true)
 
         }
         catch(error){
