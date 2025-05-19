@@ -25,7 +25,7 @@ function App() {
 
   function LogOut(){
     signOut(auth)
-    setIsLogged(false)
+    setUser(null)
     
   }
 
@@ -89,7 +89,7 @@ function App() {
     <>
 
       {
-        !isLogged ? (
+        !user ? (
           <>
             {
               isRegistered ?
@@ -118,7 +118,7 @@ function App() {
     </nav>
     <h1 id="Options">...</h1>
                 
-                  <AddExpense isLogged={isLogged} fetchExpenses={fetchExpenses} />
+                  <AddExpense user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} />
                   <DisplayExpense setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList} />
                   <Summary displayedExpensesList={displayedExpensesList} expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
                   <GoalBudget collectedMoney={collectedMoney} setCollectedMoney={setCollectedMoney}user = {user}/>

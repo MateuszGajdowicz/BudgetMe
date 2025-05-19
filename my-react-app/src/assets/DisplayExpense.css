@@ -1,6 +1,5 @@
 .ExpensesContainer{
     position: absolute;
-    max-height: 80%;
     overflow: scroll;
     left: 32%;
     width: 30%;
@@ -8,9 +7,11 @@
     flex-direction: column;
     gap:20px;
     top: 10%;
+    height: 100%;
     align-items: center;
     select{
         height: 15%;
+        max-height: 30px;
         width: 40%;
         border-radius: 10px;
         border: 5px solid hsl(19, 84%, 72%);

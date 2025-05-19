@@ -19,11 +19,17 @@ function Summary({expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
 
 
     const [SummaryExpenses, setSummaryExpenses] = useState( {
-        Food:0,
-        Attractions:0,
+        Jedzenie:0,
+        Rozrywka:0,
         Sport:0,
-        Vehicles:0,
-        Bills:0,
+        Pojazdy:0,
+        Rachunki:0,
+        KosmetykiIUroda:0,
+        Ubrania:0,
+        Edukacja:0,
+        Zdrowie:0,
+        Wyjazdy:0,
+        Zwierzęta:0,
         Others:0,
     })
 
@@ -33,6 +39,12 @@ function Summary({expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
         let sport = 0;
         let vehicles = 0;
         let bills=0;
+        let Beauty = 0;
+        let Clothes =9;
+        let Education = 0;
+        let Health = 0;
+        let Trips = 0;
+        let Pets = 0;
         let others=0;
 
         for(let i=0;i<displayedExpensesList.length;i++){
@@ -53,6 +65,24 @@ function Summary({expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
                 case "Rachunki":
                     bills+=amount;
                     break
+                case "Kosmetyki i Uroda":
+                    Beauty+=amount
+                    break;
+                case "Ubrania":
+                    Clothes+=amount;
+                    break
+                case "Edukacja":
+                    Education+=amount;
+                    break
+                case "Zdrowie":
+                    Health+=amount;
+                    break
+                case "Wyjazdy":
+                    Trips+=amount;
+                    break
+                case "Zwierzęta":
+                    Pets+=amount
+                    break
                 case "Inne":
                     others+=amount
                     break
@@ -60,12 +90,18 @@ function Summary({expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
             }
 
         }
-        setSummaryExpenses({Food:food,
-                            Attractions:attractions,
+        setSummaryExpenses({Jedzenie:food,
+                            Rozrywka:attractions,
                             Sport:sport,
-                            Vehicles:vehicles,
-                            Bills:bills,
-                            Others:others
+                            Pojazdy:vehicles,
+                            Rachunki:bills,
+                            KosmetykiIUroda:Beauty,
+                            Ubrania: Clothes,
+                            Edukacja:Education,
+                            Zdrowie:Health,
+                            Wyjazdy: Trips,
+                            Zwierzęta:Pets,
+                            Inne:others
         })
     }
 
@@ -93,12 +129,18 @@ function Summary({expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
         
         <div className="SummaryContainer">
         <h3>Łącznie wydałeś <strong>{expenseSum} zł</strong></h3>
-        <h3>🍕 Jedzenie: {SummaryExpenses.Food} zł</h3>
-        <h3>🎉 Rozrywka: {SummaryExpenses.Attractions} zł</h3>
+        <h3>🍕 Jedzenie: {SummaryExpenses.Jedzenie} zł</h3>
+        <h3>🎉 Rozrywka: {SummaryExpenses.Rozrywka} zł</h3>
         <h3>🤾 Sport: {SummaryExpenses.Sport} zł</h3>
-        <h3>🚗 Pojazdy: {SummaryExpenses.Vehicles} zł</h3>
-        <h3>💴 Rachunki: {SummaryExpenses.Bills} zł</h3>
-        <h3>➕ Inne: {SummaryExpenses.Others} zł</h3>
+        <h3>🚗 Pojazdy: {SummaryExpenses.Pojazdy} zł</h3>
+        <h3>💴 Rachunki: {SummaryExpenses.Rachunki} zł</h3>
+        <h3>💅 Kosmetyki i uroda: {SummaryExpenses.KosmetykiIUroda} zł</h3>
+        <h3>📙 Edukacja: {SummaryExpenses.Edukacja} zł</h3>
+        <h3>🏥 Zdrowie: {SummaryExpenses.Zdrowie} zł</h3>
+        <h3>🛬 Wyjazdy: {SummaryExpenses.Wyjazdy} zł</h3>
+        <h3>🐶 Zwierzęta : {SummaryExpenses.Zwierzęta} zł        </h3>
+        <h3>👖 Ubrania: {SummaryExpenses.Ubrania} zł</h3>
+        <h3>➕ Inne: {SummaryExpenses.Inne} zł</h3>
         <h3>Najwięcej wydajesz na {biggest.maxCategory} - {biggest.maxAmount} zł</h3>
             
         </div>

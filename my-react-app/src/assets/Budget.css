@@ -1,8 +1,9 @@
 .BudgetContainer{
     position: absolute;
     top: 10%;
-    height: 30%;
+    height: auto;
     width: 25%;
+    min-height: 30%;
 
     background-color: hsl(19, 84%, 82%);
     right:8%;

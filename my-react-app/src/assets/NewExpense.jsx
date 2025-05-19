@@ -5,14 +5,14 @@ import { addDoc, collection } from "firebase/firestore";
 import './NewExpense.css'
 
 
-function AddExpense({isLogged, fetchExpenses}){
+function AddExpense({user, isLogged, fetchExpenses}){
     const [name, setName] = useState("")
     const [amount, setAmount] = useState("")
     const [category, setCategory]= useState("")
     const [number, setNumber] = useState("")
 
      async function handleExpenseAdd(){
-        if(isLogged){
+        if(user){
             if(name && amount && category!==""){
                 const newExpense = {
                     userID:auth.currentUser.uid,
@@ -57,6 +57,12 @@ function AddExpense({isLogged, fetchExpenses}){
                 <option value="Sport">Sport</option>
                 <option value="Pojazdy">Pojazdy</option>
                 <option value="Rachunki">Rachunki</option>
+                <option value="Kosmetyki i Uroda">Kosmetyki i Uroda</option>
+                <option value="Ubrania">Ubrania</option>
+                <option value="Edukacja">Edukacja</option>
+                <option value="Zdrowie">Zdrowie</option>
+                <option value="Wyjazdy">Wyjazdy</option>
+                <option value="Zwierzęta">Zwierzęta</option>
                 <option value="Inne">Inne</option>
             </select>
             <button onClick={handleExpenseAdd}>Dodaj</button>
