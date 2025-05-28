@@ -12,6 +12,7 @@ import Summary from "./assets/Summary";
 import Budget from "./assets/Budget";
 import GoalBudget from "./assets/GoalBudget";
 import ExpensesPage from "./assets/ExpensesPage";
+import BudgetPage from "./assets/BudgetPage";
 function App() {
   const [isRegistered, setIsRegistered] = useState(true)
   const [isLogged, setIsLogged]=useState(true)
@@ -21,14 +22,18 @@ function App() {
   const [collectedMoney, setCollectedMoney] = useState(0)
   const [displayedExpensesList, setDisplayedExpensesList] = useState(expensesList)
 
-  const [isExpensesPageVisible, setIsExpensesPageVisible] = useState(true)
+  const [isExpensesPageVisible, setIsExpensesPageVisible] = useState(false)
+  const [isMainPagevisible, setIsMainPageVisible] =useState(false)
+  const [isBudgetPageVisible, setIsBudgetPageVisible] = useState(true)
 
 
   const [budget, setBudget] = useState(0)
+  const [categoriesExpenses, setCategoriesExpenses] = useState({})
 
   function LogOut(){
     signOut(auth)
     setUser(null)
+    setIsLogged(false)
     
   }
 
@@ -68,6 +73,7 @@ function App() {
     if(user){
       fetchExpenses();
       
+      
     }
   },[user])
 
@@ -84,8 +90,23 @@ function App() {
 
   // }),[]})
 
-
+function NavigateToMainPage(){
+  setIsExpensesPageVisible(false)
+  setIsMainPageVisible(true)
+  setIsBudgetPageVisible(false)
   
+
+}
+function NavigateToExpensesPage(){
+  setIsMainPageVisible(false)
+  setIsExpensesPageVisible(true)
+  setIsBudgetPageVisible(false)
+}
+function NaviagteToBudgetPage(){
+  setIsBudgetPageVisible(true)
+  setIsExpensesPageVisible(false)
+  setIsMainPageVisible(false)
+}
 
 
   return (
@@ -109,9 +130,9 @@ function App() {
   <nav>
       <ul>
         <li id="BudgetMe">BudgetMe</li>
-        <li>Strona główna</li>
-        <li>Wydatki</li>
-        <li>Budżet</li>
+        <li onClick={NavigateToMainPage}>Strona główna</li>
+        <li onClick={NavigateToExpensesPage}>Wydatki</li>
+        <li onClick={NaviagteToBudgetPage}>Budżet</li>
         <li>Cele</li>
         <li>Statystyki</li>
         <li>Ustawienia</li>
@@ -122,16 +143,24 @@ function App() {
     <h1 id="Options">...</h1>
 
 
-                {!isExpensesPageVisible? 
+                {isMainPagevisible &&
                 <>
                   <AddExpense user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} />
                   <DisplayExpense setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList} />
-                  <Summary displayedExpensesList={displayedExpensesList} expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
+                  <Summary setCategoriesExpenses={setCategoriesExpenses} displayedExpensesList={displayedExpensesList} expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
                   <GoalBudget collectedMoney={collectedMoney} setCollectedMoney={setCollectedMoney}user = {user}/>
                   <Budget collectedMoney={collectedMoney}user = {user}budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
-                  </>
-                :<ExpensesPage setExpenseSum={setExpenseSum} expenseSum={expenseSum}  user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList}/>
-                }
+                  </>}
+                  {
+                    isExpensesPageVisible &&
+                    <ExpensesPage setExpenseSum={setExpenseSum} expenseSum={expenseSum}  user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList}/>
+
+                  }
+                  {
+                    isBudgetPageVisible &&
+                    <BudgetPage fetchExpenses={fetchExpenses} categoriesExpenses={categoriesExpenses} collectedMoney={collectedMoney}user = {user}budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
+                  }
+                
 
 
                 </>

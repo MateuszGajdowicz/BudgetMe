@@ -102,11 +102,15 @@ function GoalBudget({user,collectedMoney,setCollectedMoney}){
     },[user])
 
     useEffect(()=>{
-        setPercentageGoal((collectedMoney/goalPrice)*100)
+        setGoalMessage("")
+    },[])
+
+    useEffect(()=>{
+        setPercentageGoal(parseFloat(collectedMoney/goalPrice)*100)
         if(collectedMoney>=goalPrice){
             setGoalMessage("Gratulacje! Uzbierałeś całą sumę!")
             
-    }},[collectedMoney, goalPrice])
+    }},[collectedMoney, goalPrice, user])
     return(
         <div className='GoalBudgetContainer'>
             <h1>Twój cel to: {goalName}</h1>

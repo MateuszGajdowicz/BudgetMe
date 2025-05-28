@@ -3,7 +3,7 @@ import { db, auth } from "../firebase";
 import { useEffect, useState } from 'react';
 import './Budget.css'
 import { addDoc, collection, doc, getDoc, getDocs, query,updateDoc,where  } from "firebase/firestore";
-function Budget({budget,setBudget,expenseSum,user,collectedMoney}){
+function Budget({setSingleBudget, budget,setBudget,expenseSum,user,collectedMoney, fetchBudget}){
     const [budgetInputValue, setBudgetInputValue]= useState(0)
     const [BudgetLeft, setBudgetLeft] = useState(null)
     const [existingDocID, setExistingDocID] = useState(null)
@@ -35,7 +35,7 @@ function Budget({budget,setBudget,expenseSum,user,collectedMoney}){
 
 
     }
-    async function fetchBudget(){
+          async function fetchBudget(){
         const q = query(
             collection(db, "budget"),
             where("userID", "==", user.uid));
@@ -45,9 +45,13 @@ function Budget({budget,setBudget,expenseSum,user,collectedMoney}){
             const data = doc.data();
             setBudget(data.budget)
             setExistingDocID(doc.id);
+            setSingleBudget(budget/12)
+
         }
     }  
     
+
+
     useEffect(()=>{
         fetchBudget();
     },[user])
@@ -82,6 +86,10 @@ function Budget({budget,setBudget,expenseSum,user,collectedMoney}){
 
     }
 }
+useEffect(()=>{
+    console.log("Budget props:", { collectedMoney, budget, expenseSum });
+
+},[])
     return(
         <div className="BudgetContainer">
             <h1>Twój budżet to: {budget} zł</h1>

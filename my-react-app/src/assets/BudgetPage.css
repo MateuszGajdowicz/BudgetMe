@@ -1,0 +1,28 @@
+.CategoriesBudgetContainer{
+    display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 3 kolumny */
+  grid-template-rows: repeat(3, 1fr);    /* 3 wiersze */
+  gap: 10px; /* odstęp między elementami */
+  width: 60%;
+  height: 85%;
+  position: absolute;
+  right: 5%;
+  top:10%;
+  .SingleCategoryBudgetContainer{
+    background-color: hsl(13, 84%, 77%);
+    border-radius: 30px;
+    border: 5px solid white;
+    h2{
+        padding-left: 10px;
+    }
+    
+  }
+}
+.SplitBudgetContainer{
+    position: absolute;
+    width: 25%;
+    height: 35%;
+    bottom: 5%;
+    background-color: wheat;
+    left: 5%;
+}

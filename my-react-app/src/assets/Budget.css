@@ -4,6 +4,8 @@
     height: auto;
     width: 25%;
     min-height: 30%;
+    display: flex;
+    flex-direction: column;
 
     background-color: hsl(19, 84%, 82%);
     right:8%;
@@ -34,4 +36,19 @@
     }
 
 
+}
+
+.BudgetPage .BudgetContainer{
+    left: 5%;
+    height: 40%;
+    justify-content: space-around;
+    font-size: 1.1rem;
+    input{
+        width: 50%;
+
+    }
+    button{
+        width: 50%;
+    }
+    
 }

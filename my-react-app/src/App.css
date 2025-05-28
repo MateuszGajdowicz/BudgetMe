@@ -4,6 +4,7 @@ body {
     animation: gradientFlow 10s ease infinite;
     height: 100vh;
     margin: 0;
+    
       }
   
   @keyframes gradientFlow {

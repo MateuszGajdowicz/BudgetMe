@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Summary.css"
 
-function Summary({expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
+function Summary({setCategoriesExpenses, expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
 
     function SumExpenses(array){
         let Sum=0;
@@ -32,6 +32,9 @@ function Summary({expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
         Zwierzęta:0,
         Others:0,
     })
+    useEffect(()=>{
+        setCategoriesExpenses(SummaryExpenses)
+    }, [SummaryExpenses])
 
     function CalculateExpenses(){
         let food= 0;
