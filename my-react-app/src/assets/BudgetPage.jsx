@@ -15,13 +15,35 @@ function BudgetPage({fetchExpenses, categoriesExpenses, collectedMoney, user, bu
     },[])
 
     const [docId, setDocID] = useState(null)
+    const [selectedIndex, setSelectedIndex] = useState(null)
+    const [singleBudgetsCategories, setSingleBudgetsCategories] = useState({})
 
-    async function handleSingleBudgetAdd(){
+    const categoryKeys = [
+  "Jedzenie",
+  "Rozrywka",
+  "Sport",
+  "Pojazdy",
+  "Rachunki",
+  "KosmetykiIUroda",
+  "Ubrania",
+  "Edukacja",
+  "Zdrowie",
+  "Wyjazdy",
+  "Zwierzęta",
+  "Inne"
+];
+
+    const [singleBudgetValue, setSingleBudgetValue] = useState(null)
+    async function handleSingleBudgetAdd(event, index){
+      setSingleBudgetValue(event.target.value)
+      setSelectedIndex(index)
         if(docId){
-
+          const selectedCategory = categoryKeys[selectedIndex]
+          const DocRef = doc(collection(db,"SingleBudgets"), docId)
+          await updateDoc(DocRef, {[`${selectedCategory}Budget`]:singleBudgetValue})
         }
         else{
-            const singleBudgets = {
+            setSingleBudgetsCategories({
             userID: auth.currentUser.uid,
             JedzenieBudget:budget/12,
             RozrywkaBudget:budget/12,
@@ -36,11 +58,22 @@ function BudgetPage({fetchExpenses, categoriesExpenses, collectedMoney, user, bu
             ZwierzętaBudget:budget/12,
             InneBudget:budget/12,
 
-        }
-        const DocRef =await addDoc(collection(db,"SingleBudgets"),singleBudgets);
+        })
+        const DocRef =await addDoc(collection(db,"SingleBudgets"),singleBudgetsCategories);
         setDocID(DocRef.id)
 
         }
+
+        }
+
+        function fetchSingleBudgets(){
+          const q =query(
+            collection(db,"SingleBudgets"),
+            where("userID","===",user.uid)
+          );
+          const querySnapshot = await getDocs(q);
+          const single 
+          
 
         }
 
@@ -61,6 +94,8 @@ function BudgetPage({fetchExpenses, categoriesExpenses, collectedMoney, user, bu
             <div key={index} className="SingleCategoryBudgetContainer">
               <h2>{category}</h2>
               <h3>Twój budżet to: {singlebudget.toFixed(2,0)} zł</h3>
+              <p>Edytuj</p>
+              <input type="text" placeholder='Edytuj Budzet' />
               <h3>Pozostało ci jeszcze: {(singlebudget-expense).toFixed(2,0)} zł</h3>
             </div>
           ))}
