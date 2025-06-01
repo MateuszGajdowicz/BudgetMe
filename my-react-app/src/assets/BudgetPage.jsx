@@ -3,85 +3,99 @@ import Budget from './Budget'
 import { useEffect, useState } from 'react';
 import { db, auth } from "../firebase";
 
-import { addDoc, collection, doc, getDoc, getDocs, query,updateDoc,where  } from "firebase/firestore";
-function BudgetPage({fetchExpenses, categoriesExpenses, collectedMoney, user, budget, setBudget, expenseSum }) {
+import { addDoc, collection, collectionGroup, doc, getDoc, getDocs, query,updateDoc,where  } from "firebase/firestore";
+function BudgetPage({setCategoriesExpenses,categoriesExpenses,fetchExpenses, collectedMoney, user, budget, setBudget, expenseSum }) {
+  let SingleBudget = budget/12
 
-    const [singlebudget, setSingleBudget] = useState(budget/12)
-    useEffect(()=>{
-            console.log( "categpries "+categoriesExpenses)
-            fetchExpenses();
+ const budgets = {
+  Jedzenie: SingleBudget,
+  Rozrywka: SingleBudget,
+  Sport: SingleBudget,
+  Pojazdy: SingleBudget,
+  Rachunki: SingleBudget,
+  KosmetykiIUroda: SingleBudget,
+  Ubrania: SingleBudget,
+  Edukacja: SingleBudget,
+  Zdrowie: SingleBudget,
+  Wyjazdy: SingleBudget,
+  Zwierzęta: SingleBudget,
+  Inne: SingleBudget,
+}; 
+
+  const categoryNames = [
+    "Jedzenie", "Rozrywka", "Sport", "Pojazdy", "Rachunki",
+    "KosmetykiIUroda", "Ubrania", "Edukacja", "Zdrowie",
+    "Wyjazdy", "Zwierzęta", "Inne"
+  ];
+
+const [inputValues, setInputValues] =useState({})
+
+const [existingDocID, setExistingDocID] = useState(null)
+
+async function handleSingleBudgetChange(index){
+  if(existingDocID){
+const category = SingleBudgetInfo[index].name;
+const newBudget = Number(inputValues[category]);
+    const docRef = doc(collection(db, "singleBudgets"), existingDocID)
+      const updatedBudget = SingleBudgetInfo.map((item, i) =>
+        i === index ? { ...item, budget: newBudget } : item
+      );
+
+      await updateDoc(docRef, { budget: updatedBudget });
+      setSingleBudgetInfo(updatedBudget);
 
 
-    },[])
+  }
+  else{
+const newBudgetInfo = {
+  userID: auth.currentUser.uid,
+  budget: SingleBudgetInfo.map((item, i) =>
+    i === index ? { ...item, budget: newBudget } : item
+  ),
+}; 
+const docRef = await addDoc(collection(db, "singleBudgets"), newBudgetInfo);
+setExistingDocID(docRef.id);
 
-    const [docId, setDocID] = useState(null)
-    const [selectedIndex, setSelectedIndex] = useState(null)
-    const [singleBudgetsCategories, setSingleBudgetsCategories] = useState({})
 
-    const categoryKeys = [
-  "Jedzenie",
-  "Rozrywka",
-  "Sport",
-  "Pojazdy",
-  "Rachunki",
-  "KosmetykiIUroda",
-  "Ubrania",
-  "Edukacja",
-  "Zdrowie",
-  "Wyjazdy",
-  "Zwierzęta",
-  "Inne"
-];
+  }
+  fetchSingleBudgets();
 
-    const [singleBudgetValue, setSingleBudgetValue] = useState(null)
-    async function handleSingleBudgetAdd(event, index){
-      setSingleBudgetValue(event.target.value)
-      setSelectedIndex(index)
-        if(docId){
-          const selectedCategory = categoryKeys[selectedIndex]
-          const DocRef = doc(collection(db,"SingleBudgets"), docId)
-          await updateDoc(DocRef, {[`${selectedCategory}Budget`]:singleBudgetValue})
-        }
-        else{
-            setSingleBudgetsCategories({
-            userID: auth.currentUser.uid,
-            JedzenieBudget:budget/12,
-            RozrywkaBudget:budget/12,
-            SportBudget:budget/12,
-            Pojazdybudget:budget/12,
-            RachunkiBudget:budget/12,
-            KosmetykiIUrodaBudget:budget/12,
-            UbraniaBudget:budget/12,
-            EdukacjaBudget:budget/12,
-            ZdrowieBudget:budget/12,
-            WyjazdyBudget:budget/12,
-            ZwierzętaBudget:budget/12,
-            InneBudget:budget/12,
+}
 
-        })
-        const DocRef =await addDoc(collection(db,"SingleBudgets"),singleBudgetsCategories);
-        setDocID(DocRef.id)
+async function fetchSingleBudgets(){
+  const q = query(collection(db,"singleBudgets"),
+where("userID","==", user.uid));
+const querySnapshot = await getDocs(q);
+if(!querySnapshot.empty){
+  const docData = querySnapshot.docs[0].data();
+  const DocID = querySnapshot.docs[0].id
+  setExistingDocID(DocID)
+  setSingleBudgetInfo(docData.budget)
 
-        }
+}
+else{
+   const defaultBudgets = categoryNames.map(element=>({
+  element,
+  budget: SingleBudget,
+  expense: categoriesExpenses[element]
+}))
+setCategoriesExpenses(defaultBudgets)
 
-        }
+} 
 
-        function fetchSingleBudgets(){
-          const q =query(
-            collection(db,"SingleBudgets"),
-            where("userID","===",user.uid)
-          );
-          const querySnapshot = await getDocs(q);
-          const single 
-          
+}
+useEffect(() => {
+  fetchSingleBudgets();
+}, []);
 
-        }
+
+const [SingleBudgetInfo, setSingleBudgetInfo] = useState([]) 
 
   return (
     <>
       <div className="BudgetPage">
         <Budget
-        setSingleBudget={setSingleBudget}
+        setCategoriesExpenses={setCategoriesExpenses}
           collectedMoney={collectedMoney}
           user={user}
           budget={budget}
@@ -90,37 +104,28 @@ function BudgetPage({fetchExpenses, categoriesExpenses, collectedMoney, user, bu
         />
 
         <div className="CategoriesBudgetContainer">
-          {Object.entries(categoriesExpenses).map(([category, expense], index) => (
+          {SingleBudgetInfo.map((element,index) => (
             <div key={index} className="SingleCategoryBudgetContainer">
-              <h2>{category}</h2>
-              <h3>Twój budżet to: {singlebudget.toFixed(2,0)} zł</h3>
+              <h2>{element.name}</h2>
+              <h3>Twój budżet to: {element.budget.toFixed(2)} zł</h3>
               <p>Edytuj</p>
-              <input type="text" placeholder='Edytuj Budzet' />
-              <h3>Pozostało ci jeszcze: {(singlebudget-expense).toFixed(2,0)} zł</h3>
+              <input
+                  type="number"
+                  value={inputValues[element.name] || ""}
+                  onChange={e =>
+                    setInputValues(prev => ({
+                      ...prev,
+                      [element.name]: e.target.value
+                    }))
+                  }
+                />
+              <button onClick={()=>handleSingleBudgetChange(index)}>Dodaj</button>
+              <h3>Pozostało ci jeszcze: {(element.budget-element.expense).toFixed(2)}  zł</h3>
             </div>
           ))}
         </div>
+        <button className='SplitButton'>Podziel równo</button>
 
-        <div className="SplitBudgetContainer">
-            <button onClick={()=>setSingleBudget(budget/12)}>Rozłóż budżet</button>
-            <h2>Zmień budżet</h2>
-            <select name="Kategoria" id="" onChange={event=>setCategoryName(event.target.value)}>
-                <option value="Wybierz kategorię">Wybierz kategorię</option>
-                <option value="Jedzenie">Jedzenie</option>
-                <option value="Rozrywka">Rozrywka</option>
-                <option value="Sport">Sport</option>
-                <option value="Pojazdy">Pojazdy</option>
-                <option value="Rachunki">Rachunki</option>
-                <option value="Kosmetyki i Uroda">Kosmetyki i Uroda</option>
-                <option value="Ubrania">Ubrania</option>
-                <option value="Edukacja">Edukacja</option>
-                <option value="Zdrowie">Zdrowie</option>
-                <option value="Wyjazdy">Wyjazdy</option>
-                <option value="Zwierzęta">Zwierzęta</option>
-                <option value="Inne">Inne</option>
-            </select>
-            <button onClick={handleSingleBudgetAdd}>Dodaj</button>
-        </div>
       </div>
     </>
   );

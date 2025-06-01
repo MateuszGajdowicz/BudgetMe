@@ -45,7 +45,6 @@ function Budget({setSingleBudget, budget,setBudget,expenseSum,user,collectedMone
             const data = doc.data();
             setBudget(data.budget)
             setExistingDocID(doc.id);
-            setSingleBudget(budget/12)
 
         }
     }  

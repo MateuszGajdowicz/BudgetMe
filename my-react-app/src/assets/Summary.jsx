@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Summary.css"
 
-function Summary({setCategoriesExpenses, expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
+function Summary({user, setCategoriesExpenses, expensesList,setExpenseSum,expenseSum,displayedExpensesList}){
 
     function SumExpenses(array){
         let Sum=0;
@@ -30,11 +30,9 @@ function Summary({setCategoriesExpenses, expensesList,setExpenseSum,expenseSum,d
         Zdrowie:0,
         Wyjazdy:0,
         Zwierzęta:0,
-        Others:0,
+        Inne:0,
     })
-    useEffect(()=>{
-        setCategoriesExpenses(SummaryExpenses)
-    }, [SummaryExpenses])
+
 
     function CalculateExpenses(){
         let food= 0;
@@ -106,6 +104,9 @@ function Summary({setCategoriesExpenses, expensesList,setExpenseSum,expenseSum,d
                             Zwierzęta:Pets,
                             Inne:others
         })
+        setCategoriesExpenses(SummaryExpenses)
+
+
     }
 
     function BiggestExpenses(){
@@ -123,7 +124,7 @@ function Summary({setCategoriesExpenses, expensesList,setExpenseSum,expenseSum,d
     useEffect(()=>{
         CalculateExpenses();
 
-    },[displayedExpensesList])
+    },[displayedExpensesList, user, SummaryExpenses])
     const biggest = BiggestExpenses();
 
 

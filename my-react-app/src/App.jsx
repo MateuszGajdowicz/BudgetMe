@@ -13,6 +13,7 @@ import Budget from "./assets/Budget";
 import GoalBudget from "./assets/GoalBudget";
 import ExpensesPage from "./assets/ExpensesPage";
 import BudgetPage from "./assets/BudgetPage";
+import ChartsPage from "./assets/ChartsPage";
 function App() {
   const [isRegistered, setIsRegistered] = useState(true)
   const [isLogged, setIsLogged]=useState(true)
@@ -24,7 +25,8 @@ function App() {
 
   const [isExpensesPageVisible, setIsExpensesPageVisible] = useState(false)
   const [isMainPagevisible, setIsMainPageVisible] =useState(false)
-  const [isBudgetPageVisible, setIsBudgetPageVisible] = useState(true)
+  const [isBudgetPageVisible, setIsBudgetPageVisible] = useState(false)
+  const [isChartsPageVisible, setIsChartsPageVisible] = useState(true)
 
 
   const [budget, setBudget] = useState(0)
@@ -94,6 +96,7 @@ function NavigateToMainPage(){
   setIsExpensesPageVisible(false)
   setIsMainPageVisible(true)
   setIsBudgetPageVisible(false)
+  setIsChartsPageVisible(false)
   
 
 }
@@ -101,11 +104,22 @@ function NavigateToExpensesPage(){
   setIsMainPageVisible(false)
   setIsExpensesPageVisible(true)
   setIsBudgetPageVisible(false)
+    setIsChartsPageVisible(false)
+
 }
 function NaviagteToBudgetPage(){
   setIsBudgetPageVisible(true)
   setIsExpensesPageVisible(false)
   setIsMainPageVisible(false)
+    setIsChartsPageVisible(false)
+
+}
+function NaviagetToChartsPage(){
+  setIsBudgetPageVisible(false)
+  setIsExpensesPageVisible(false)
+  setIsMainPageVisible(false)
+    setIsChartsPageVisible(true)
+
 }
 
 
@@ -134,7 +148,7 @@ function NaviagteToBudgetPage(){
         <li onClick={NavigateToExpensesPage}>Wydatki</li>
         <li onClick={NaviagteToBudgetPage}>Budżet</li>
         <li>Cele</li>
-        <li>Statystyki</li>
+        <li onClick={NaviagetToChartsPage}>Statystyki</li>
         <li>Ustawienia</li>
         <li>Profil</li>
         <li onClick={LogOut}>Wyloguj</li>
@@ -147,18 +161,23 @@ function NaviagteToBudgetPage(){
                 <>
                   <AddExpense user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} />
                   <DisplayExpense setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList} />
-                  <Summary setCategoriesExpenses={setCategoriesExpenses} displayedExpensesList={displayedExpensesList} expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
+                  <Summary user={user}setCategoriesExpenses={setCategoriesExpenses} displayedExpensesList={displayedExpensesList} expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
                   <GoalBudget collectedMoney={collectedMoney} setCollectedMoney={setCollectedMoney}user = {user}/>
                   <Budget collectedMoney={collectedMoney}user = {user}budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
                   </>}
                   {
                     isExpensesPageVisible &&
-                    <ExpensesPage setExpenseSum={setExpenseSum} expenseSum={expenseSum}  user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList}/>
+                    <ExpensesPage setCategoriesExpenses={setCategoriesExpenses} setExpenseSum={setExpenseSum} expenseSum={expenseSum}  user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList}/>
 
                   }
                   {
                     isBudgetPageVisible &&
                     <BudgetPage fetchExpenses={fetchExpenses} categoriesExpenses={categoriesExpenses} collectedMoney={collectedMoney}user = {user}budget={budget} setBudget={setBudget} expenseSum={expenseSum}/>
+                  }
+                  {
+                    isChartsPageVisible &&
+                    <ChartsPage categoriesExpenses={categoriesExpenses}/>
+
                   }
                 
 

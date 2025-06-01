@@ -3,7 +3,7 @@ import DisplayExpense from "./DisplayExpense";
 import AddExpense from "./NewExpense";
 import Summary from "./Summary";
 import { useEffect, useState, useRef } from "react";
-function ExpensesPage({isLogged,user, fetchExpenses,expensesList, setExpensesList,DeleteExpense,displayedExpensesList,setDisplayedExpensesList,setExpenseSum,expenseSum}){
+function ExpensesPage({setCategoriesExpenses,isLogged,user, fetchExpenses,expensesList, setExpensesList,DeleteExpense,displayedExpensesList,setDisplayedExpensesList,setExpenseSum,expenseSum}){
     const nameRef = useRef();
     const categoryRef = useRef();
     const priceRef = useRef();
@@ -88,7 +88,7 @@ function ExpensesPage({isLogged,user, fetchExpenses,expensesList, setExpensesLis
     
     return(<>
     <div className="expensesPage">
-    <AddExpense user={user}isLogged={isLogged} fetchExpenses={fetchExpenses}/>
+    <AddExpense user={user}isLogged={isLogged} fetchExpenses={fetchExpenses} />
     <div className="FilterExpensesContainer">
         <div className="date1container">
             <label htmlFor="name">Co chesz wyszukać?</label>
@@ -132,7 +132,7 @@ function ExpensesPage({isLogged,user, fetchExpenses,expensesList, setExpensesLis
 
     </div>
 <DisplayExpense setDisplayedExpensesList={setDisplayedExpensesList} displayedExpensesList={displayedExpensesList} DeleteExpense={DeleteExpense} setExpensesList={setExpensesList} expensesList={expensesList}/>
-    <Summary  displayedExpensesList={displayedExpensesList} expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
+    <Summary setCategoriesExpenses={setCategoriesExpenses}  displayedExpensesList={displayedExpensesList} expensesList={expensesList} setExpenseSum={setExpenseSum} expenseSum={expenseSum}/>
     </div>
     </>);
 }

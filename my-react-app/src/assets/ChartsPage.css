@@ -1,0 +1,10 @@
+.CategoryExpensesChart{
+    position: absolute;
+    width: 30%;
+    height: 50%;
+    background-color: wheat;
+    left: 5%;
+    top: 10%;
+    padding: 20px;
+
+}
