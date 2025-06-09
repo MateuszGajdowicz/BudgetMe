@@ -176,7 +176,7 @@ function NaviagetToChartsPage(){
                   }
                   {
                     isChartsPageVisible &&
-                    <ChartsPage categoriesExpenses={categoriesExpenses}/>
+                    <ChartsPage expensesList={expensesList} categoriesExpenses={categoriesExpenses}/>
 
                   }
                 
