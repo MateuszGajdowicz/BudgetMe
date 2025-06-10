@@ -13,7 +13,7 @@ import Budget from "./assets/Budget";
 import GoalBudget from "./assets/GoalBudget";
 import ExpensesPage from "./assets/ExpensesPage";
 import BudgetPage from "./assets/BudgetPage";
-import ChartsPage from "./assets/ChartsPage";
+import ChartsPanel from "./assets/Charts/ChartsPanel";
 function App() {
   const [isRegistered, setIsRegistered] = useState(true)
   const [isLogged, setIsLogged]=useState(true)
@@ -176,7 +176,7 @@ function NaviagetToChartsPage(){
                   }
                   {
                     isChartsPageVisible &&
-                    <ChartsPage expensesList={expensesList} categoriesExpenses={categoriesExpenses}/>
+                    <ChartsPanel expensesList={expensesList} categoriesExpenses={categoriesExpenses}/>
 
                   }
                 

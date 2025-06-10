@@ -1,0 +1,25 @@
+.DateExpensesCharts{
+    position: absolute;
+    width:85%;
+    height: 80%;
+    background-color: hsl(19, 84%, 92%);
+    left: 5%;
+    top: 100%;
+    padding: 20px;
+    display: flex;
+    gap:30px;
+    border-radius: 30px;
+    border: 8px solid white;
+    .StickChart{
+        position: absolute;
+        width: 55%;
+        height: 40%;
+        top: 60px;
+        
+
+}
+    .InfoContainer{
+        position: absolute;
+        right: 50px;
+    }
+}

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import './ChartsPage.css'
+import './CategoriesCharts.css'
 import {PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 
-function ChartsPage({categoriesExpenses,expensesList}){
+function CategoriesCharts({categoriesExpenses,expensesList}){
     console.log(categoriesExpenses)
 
     const [ maxData, setMaxData] = useState({maxValue : 0, maxCategory:''})
@@ -102,7 +102,6 @@ const COLORS = [
         <>
         <div className='CategoryExpensesChart'>
             <div className='ChartsContainer'>
-            <h2>Kategorie Wydatki</h2>
             <div className='StickChart'>
                 <ResponsiveContainer>
                     <BarChart data={categoriesExpensesChart}>
@@ -120,12 +119,12 @@ const COLORS = [
 
             </div>
             <div className='PieChart'>
-                <PieChart width={500} height={250} >
+                <PieChart width={400} height={400} >
                 <Pie
                     data={categoriesExpensesChart}
                     cx="50%"
                     cy="50%"
-                    outerRadius={100}
+                    outerRadius="70%"
                     dataKey="AmountSpent"
                     nameKey="expenseCategory"
                     label
@@ -159,7 +158,7 @@ const COLORS = [
                 <h2>To {percentage.toFixed(2)}% twoich wszystkich wydatków</h2>
                 <h2>W kategorii {maxData.maxCategory} twój wydatek średnio wynosi {averageExpense.toFixed(2)} zł</h2>
 
-                <h2>Twój wydatek ma średnio wartość {averageAllExpense}zł</h2>
+                <h2>Twój wydatek ma średnio wartość {typeof averageAllExpense==="number" && !isNaN(averageAllExpense)? averageAllExpense.toFixed(2):"XXX"}zł</h2>
                 <h2>Nie wydałeś nic na {...noExpenseCategories.join(', ')}</h2>
 
 
@@ -175,4 +174,4 @@ const COLORS = [
     </>
     )
 }
-export default ChartsPage
+export default CategoriesCharts
