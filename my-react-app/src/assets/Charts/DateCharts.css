@@ -10,6 +10,7 @@
     gap:30px;
     border-radius: 30px;
     border: 8px solid white;
+
     .StickChart{
         position: absolute;
         width: 55%;
@@ -21,5 +22,38 @@
     .InfoContainer{
         position: absolute;
         right: 50px;
-    }
+        }
+        
+}
+.monthSelect{
+    position: absolute;
+    top: 55%;
+    left: 15%;
+
+
+
+}
+.monthName{
+    position: absolute;
+    top: 49%;
+    left: 2%;
+}
+.year{
+    position: absolute;
+    top: -2%;
+    left: 2%;
+}
+.YearSelect{
+        position: absolute;
+        left: 15%;
+}
+.SecondInfoContainer{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+}
+.radioContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

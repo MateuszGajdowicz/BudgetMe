@@ -5,10 +5,31 @@ import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'r
 import { use } from 'react';
 
 function DateCharts({categoriesExpenses,expensesList}){
-    const [ExpensesArray, setExpensesArray] = useState([])
-    const [inputValue, setInputValue] = useState("Cały rok")
+    const [ExpensesArrayWithZeros, setExpensesArrayWithZeros] = useState([])
+    const [ExpensesArrayWithoutZeros, setExpensesArrayWithoutZeros] = useState([])
+    const [ExpensesArray, setExpensesArray] = useState(ExpensesArrayWithZeros)
+
+
+    const [inputValue, setInputValue] = useState("Ten rok")
     const [maxMonthInfo, setMaxMonthInfo] = useState({Month:"", Value:""});
     const [minMonthInfo, setMinMonthInfo] = useState({Month:"", Value:""})
+    const [dailyExpenseAllMonths, setDailyExpenseAllMonths] = useState([]);
+    const [monthIndex, setMonthIndex] = useState(4)
+    const [monthName, setMonthname] = useState("maj")
+    const [year, setYear]  = useState(new Date().getFullYear())
+    const [averageMonthlyExpense, setAverageMonthlyExpense] = useState()
+    const [selected, setSelected] = useState("withZeros")
+
+    const [maxDayInfo, setMaxDayinfo] = useState({Day:"", Value:''})
+    const [minDayInfo, setMinDayinfo] = useState({Day:"", Value:''})
+
+    const [AverageEverydayExpenseDisplay,setAverageEverydayExpenseDisplay] = useState(0)
+
+    const [dailyExpensesAllMonthsWithZeros, setdailyExpensesAllMonthsWithZeros] = useState([])
+    const [dailyExpensesAllMonthsWithoutZeros, setdailyExpensesAllMonthsWithoutZeros] = useState([])
+
+
+
 
     console.log(expensesList)
         const monthNames = [
@@ -16,7 +37,6 @@ function DateCharts({categoriesExpenses,expensesList}){
     "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"
   ];
 let YearDate = new Date().getFullYear();
-let CurrentDate = new Date();
 
 function handlePeriodYearChange(event){
     const inputValue = event.target.value;
@@ -35,15 +55,24 @@ function handlePeriodYearChange(event){
     CalculateInfo();
 
 
-}
-
-
-function getDayData(month){
 
 }
+    function handleMonthChange(event){
+        let inputValue = event.target.value
+        for(let i =0;i<monthNames.length;i++){
+            if(monthNames[i]===inputValue){
+                setMonthIndex(i)
+                console.log(monthIndex)
+                setMonthname(monthNames[i])
+            }
 
+        }
+
+
+    }
+let filteredThisYearExpenses = [];
 function getYearData(){
-    let filteredThisYearExpenses = expensesList.filter(element=>{
+    filteredThisYearExpenses = expensesList.filter(element=>{
         const expenseDate = new Date(element.date.seconds*1000);
         return expenseDate.getFullYear() === YearDate
 })
@@ -63,9 +92,44 @@ function getYearData(){
     }
 
     console.log(ExpensesArray)
-    setExpensesArray(TemporaryExpensesArray)
+    setExpensesArrayWithZeros(TemporaryExpensesArray)
+    setExpensesArrayWithoutZeros(TemporaryExpensesArray.filter(element=>element.MonthlyExpenses!==0))
+    if(selected==="withZeros"){
+        setExpensesArray(TemporaryExpensesArray)
+    }
 
   }
+
+let displaydata = []
+function getDayData(){
+    for(let i=0; i<monthNames.length;i++){
+        let dailyExpensesSingleMonthArray = []
+        for(let j = 1;j<31;j++){
+            let dayFilteredExpenses = filteredThisYearExpenses.filter(element=>{
+                const expenseDate = new Date(Number(element.date.seconds*1000));
+                return expenseDate.getMonth() === i && expenseDate.getDate() === j
+            });
+        let summedDayFilteredExpenses =  dayFilteredExpenses.reduce((prev, next)=>prev+Number(next.amount), 0)
+        dailyExpensesSingleMonthArray.push({day:j,expenses: summedDayFilteredExpenses})
+
+
+
+        }
+        displaydata.push({month:monthNames[i], daysExpenses: dailyExpensesSingleMonthArray})
+        
+    }
+
+    setdailyExpensesAllMonthsWithZeros(displaydata)
+    setdailyExpensesAllMonthsWithoutZeros(displaydata.filter(element=>element[monthIndex].daysExpenses.expenses!==0))
+
+
+
+}
+useEffect(()=>{
+    console.log(dailyExpenseAllMonths)
+},[dailyExpenseAllMonths])
+
+
       function CalculateInfo(){
         let MaxValue = 0;
         let MaxMonth = "";
@@ -75,20 +139,52 @@ function getYearData(){
             if(ExpensesArray[i].MonthlyExpenses>MaxValue){
                 MaxValue = ExpensesArray[i].MonthlyExpenses;
                 MaxMonth = ExpensesArray[i].Month;
-                setMaxMonthInfo({Month:MaxMonth, Value:MaxValue})
 
             }
+        
             else if(ExpensesArray[i].MonthlyExpenses<MinValue){
                 MinValue = ExpensesArray[i].MonthlyExpenses;
                 MinMonth = ExpensesArray[i].Month;
-                setMinMonthInfo({Month:MinMonth, Value:MinValue})
                 console.log(minMonthInfo)
 
             }
-                            console.log(maxMonthInfo)
 
+
+        console.log(maxMonthInfo)
+        }
+        setMaxMonthInfo({Month:MaxMonth, Value:MaxValue})
+        setMinMonthInfo({Month:MinMonth, Value:MinValue})
+
+        let summedMonthlyExpenses = ExpensesArray.reduce((prev,next)=>prev+Number(next.MonthlyExpenses),0);
+        let averageMonthlyExpenseTemporary = Number(summedMonthlyExpenses/ExpensesArray.length);
+        setAverageMonthlyExpense(averageMonthlyExpenseTemporary)
+        console.log(averageMonthlyExpense)
+
+        let MaxDayValue = 0;
+        let MaxDay = 0;
+        let MinDayValue = Infinity;
+        let MinDay = 0;
+
+        for(let i=0; i<dailyExpenseAllMonths[monthIndex].daysExpenses.length;i++){
+            if(dailyExpenseAllMonths[monthIndex].daysExpenses[i].expenses>MaxDayValue){
+                MaxDayValue=dailyExpenseAllMonths[monthIndex].daysExpenses[i].expenses;
+                MaxDay = dailyExpenseAllMonths[monthIndex].daysExpenses[i].day;
+
+            }
+            else if(dailyExpenseAllMonths[monthIndex].daysExpenses[i].expenses<MinDayValue){
+                MinDayValue=dailyExpenseAllMonths[monthIndex].daysExpenses[i].expenses;
+                MinDay = dailyExpenseAllMonths[monthIndex].daysExpenses[i].day;
+
+            }
 
         }
+        setMaxDayinfo({Day:MaxDay, Value:MaxDayValue});
+        setMinDayinfo({Day:MinDay, Value:MinDayValue})
+
+
+        let SummedEverydayExpenses = dailyExpenseAllMonths[monthIndex].daysExpenses.reduce((prev,next)=>prev+Number(next.expenses),0);
+        let AverageEverydayExpense = SummedEverydayExpenses/31;
+        setAverageEverydayExpenseDisplay(AverageEverydayExpense)
         
     }
 
@@ -102,24 +198,32 @@ function getYearData(){
 
   useEffect(()=>{
     getYearData();
+    if(displaydata.length>0){
+    getDayData();
+
+
+    }
+    console.log(dailyExpensesAllMonthsWithoutZeros)
   },[expensesList])
   
-  useEffect(()=>{
-    CalculateInfo()
-  },[ExpensesArray])
-
+useEffect(() => {
+  if (dailyExpenseAllMonths.length > 0) {
+    CalculateInfo();
+  }
+}, [dailyExpenseAllMonths, ExpensesArray]);
 
     return(
         <>
         <div className='DateExpensesCharts'>
             <div className='ChartsContainer'></div>
             <div className='DateExpenses'>
-                <select name="" id="" onChange={event=>handlePeriodYearChange(event)}>
+                <select name="" id="" onChange={event=>handlePeriodYearChange(event)}  className='YearSelect'>
                     <option value="">Wybierz okres</option>
-                    <option value="Cały rok">Cały rok</option>
+                    <option value="Cały rok">Ten rok</option>
                     <option value="Poprzedni rok">Poprzedni rok</option>
 
                 </select>
+            <h1 className='year'>{year}</h1>
 
 
             <div className='StickChart'>
@@ -138,28 +242,104 @@ function getYearData(){
                 </ResponsiveContainer>
 
             </div>
+            <div className='DateChart' style={{top:"50%"}}>
+                    {dailyExpenseAllMonths[monthIndex] && (
+            <div className='StickChart' style={{top:"60%"}}>
+                <ResponsiveContainer>
+                <BarChart data={dailyExpenseAllMonths[monthIndex].daysExpenses}>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <XAxis dataKey="day"/>
+                    <YAxis/>
+                    <Tooltip/>
+                    <Bar dataKey="expenses">
+                    {dailyExpenseAllMonths[monthIndex]?.daysExpenses?.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                    </Bar>
+                </BarChart>
+                </ResponsiveContainer>
             </div>
-            <div className='InfoContainer'>
-                <h2>Najwięcej wydałeś w {maxMonthInfo.Month} - {maxMonthInfo.Value} zł</h2>
-                <h2>Najmniej wydałeś w {minMonthInfo.Month} - {minMonthInfo.Value} zł</h2>
-                <h2>Średnio miesięcznie wydajesz:</h2>
+)}
 
             </div>
-            {/* <select name="" id="">
+            <select name="" id="" onChange={event=>handleMonthChange(event)} className="monthSelect">
                     <option value="">Wybierz okres</option>
-                    <option value="Styczeń">Styczeń</option>
-                    <option value="Luty">Luty</option>
-                    <option value="Marzec">Marzec</option>                    
-                    <option value="Kwiecień">Kwiecień</option>
-                    <option value="Maj">Maj</option>
-                    <option value="Czerwiec">Czerwiec</option>
-                    <option value="Lipiec">Lipiec</option>
-                    <option value="Sierpień">Sierpień</option>
-                    <option value="Wrzesień">Wrzesień</option>
-                    <option value="Październik">Październik</option>
-                    <option value="Listopad">Listopad</option>
-                    <option value="Grudzień">Grudzień</option>
-            </select> */}
+                    <option value="styczeń">Styczeń</option>
+                    <option value="luty">Luty</option>
+                    <option value="marzec">Marzec</option>                    
+                    <option value="kwiecień">Kwiecień</option>
+                    <option value="maj">Maj</option>
+                    <option value="czerwiec">Czerwiec</option>
+                    <option value="lipiec">Lipiec</option>
+                    <option value="sierpień">Sierpień</option>
+                    <option value="wrzesień">Wrzesień</option>
+                    <option value="październik">Październik</option>
+                    <option value="listopad">Listopad</option>
+                    <option value="grudzień">Grudzień</option>
+            </select>
+            </div>
+            <div className='InfoContainer'>
+                <div className='radioContainer'>
+                    <div>
+                        <input
+                            type="radio"
+                            id="firstRadio"
+                            name="radio"
+                            checked={selected === "withZeros"}
+                            onChange={() => {
+                                setSelected("withZeros");
+                                setExpensesArray(ExpensesArrayWithZeros);
+                                {if(dailyExpensesAllMonthsWithZeros.length>0){
+                                        setDailyExpenseAllMonths(dailyExpensesAllMonthsWithZeros)
+
+
+                                }}
+                            }}
+                            />
+                            <label htmlFor="firstRadio">Uwzględniaj okresy bez wydatków</label>
+
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            id="secondRadio"
+                            name="radio"
+                            checked={selected === "withoutZeros"}
+                            onChange={() => {
+                                setSelected("withoutZeros");
+                                setExpensesArray(ExpensesArrayWithoutZeros);
+                                {if(dailyExpensesAllMonthsWithoutZeros.length>0){
+                                        setDailyExpenseAllMonths(dailyExpensesAllMonthsWithoutZeros)
+
+
+                                }}
+
+                                
+
+                            }}
+                            />
+                            <label htmlFor="secondRadio">Nie uwzględniaj okresów bez wydatków</label>
+
+                    </div>
+
+
+                </div>
+
+                
+                <h2>Najwięcej wydałeś w {maxMonthInfo.Month} - {maxMonthInfo.Value} zł</h2>
+                <h2>Najmniej wydałeś w {minMonthInfo.Month} - {minMonthInfo.Value} zł</h2>
+                <h2>Średnio miesięcznie wydajesz: {averageMonthlyExpense?averageMonthlyExpense.toFixed(2):"none"} zł</h2>
+
+            </div>
+            <div className='SecondInfoContainer'>
+                <h2>Najwięcej wydałeś: {maxDayInfo.Day} {monthNames[monthIndex]} - {maxDayInfo.Value} zł</h2>
+                <h2>Najmniej wydałeś : {minDayInfo.Day} {monthNames[monthIndex]} - {minDayInfo.Value} zł</h2>
+                <h2>Średnio dziennie wydajesz {AverageEverydayExpenseDisplay?.toFixed(2)} zł</h2>
+                <h2>To o procent mniej/więcej niż w miesiącu ...</h2>
+            </div>
+
+            <h1 className='monthName'>{monthName}</h1>
+
 
         </div>
         
