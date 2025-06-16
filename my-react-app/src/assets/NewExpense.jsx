@@ -33,6 +33,7 @@ function AddExpense({user, isLogged, fetchExpenses}){
             }
             else{
                 alert("Uzupełnij wszystkie dane")
+
             }
 
 

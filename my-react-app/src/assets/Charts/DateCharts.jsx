@@ -14,7 +14,7 @@ function DateCharts({categoriesExpenses,expensesList}){
     const [maxMonthInfo, setMaxMonthInfo] = useState({Month:"", Value:""});
     const [minMonthInfo, setMinMonthInfo] = useState({Month:"", Value:""})
     const [dailyExpenseAllMonths, setDailyExpenseAllMonths] = useState([]);
-    const [monthIndex, setMonthIndex] = useState(4)
+    const [monthIndex, setMonthIndex] = useState(new Date().getMonth())
     const [monthName, setMonthname] = useState("maj")
     const [year, setYear]  = useState(new Date().getFullYear())
     const [averageMonthlyExpense, setAverageMonthlyExpense] = useState()
@@ -25,10 +25,12 @@ function DateCharts({categoriesExpenses,expensesList}){
 
     const [AverageEverydayExpenseDisplay,setAverageEverydayExpenseDisplay] = useState(0)
 
-    const [dailyExpensesAllMonthsWithZeros, setdailyExpensesAllMonthsWithZeros] = useState([])
-    const [dailyExpensesAllMonthsWithoutZeros, setdailyExpensesAllMonthsWithoutZeros] = useState([])
-
     const [yearDate, setYearDate] = useState(new Date().getFullYear())
+
+    const [prevMonthIndex, setPrevMonthIndex] = useState(new Date().getMonth()-1)
+    const [prevMonthSumState, setPrevMonthSumState] = useState(0)
+
+    const [DiffResult, setDiffResult] = useState(0)
     
 
 
@@ -37,6 +39,8 @@ function DateCharts({categoriesExpenses,expensesList}){
     "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec",
     "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"
   ];
+
+  const weekNames = ['poniedziałek','wtorek', 'środa', 'czwartek','piątek','sobota','niedziela']
 function handlePeriodYearChange(event){
     const inputValue = event.target.value;
     switch(inputValue){
@@ -81,6 +85,7 @@ useEffect(()=>{
     },[monthIndex])
 let filtered=[];
 function getYearData(){
+    filtered = [];
     filtered = expensesList.filter(element=>{
         const expenseDate = new Date(element.date.seconds*1000);
         return expenseDate.getFullYear() === yearDate;
@@ -113,9 +118,10 @@ useEffect(()=>{
 
 },[ExpensesArray])
 
-let displaydata = []
 
 function getDayData(){
+    let displaydata = []
+
 
     for(let i=0; i<monthNames.length;i++){
         let dailyExpensesSingleMonthArray = []
@@ -125,7 +131,10 @@ function getDayData(){
                 return expenseDate.getMonth() === i && expenseDate.getDate() === j
             });
         let summedDayFilteredExpenses =  dayFilteredExpenses.reduce((prev, next)=>prev+Number(next.amount), 0)
-        dailyExpensesSingleMonthArray.push({day:j,expenses: summedDayFilteredExpenses})
+        let newDate =  new Date(yearDate,i,j)
+        let weekday  =newDate.getDay();
+                        
+        dailyExpensesSingleMonthArray.push({day:j,expenses: summedDayFilteredExpenses, date:weekday})
 
 
 
@@ -134,17 +143,12 @@ function getDayData(){
         
     }
     setDailyExpenseAllMonths(displaydata)
+
+
 }
+
 useEffect(()=>{
-    if(dailyExpenseAllMonths.length>0){
-        CalculateDayData()
-
-
-    }
-},[monthIndex])
-// useEffect(()=>{
-//     CalculateDayData();
-// },[dailyExpenseAllMonths])
+console.log(dailyExpenseAllMonths)},[dailyExpenseAllMonths,monthIndex])
 
 
 
@@ -205,6 +209,38 @@ function CalculateDayData(){
 
         let SummedEverydayExpenses = dailyExpenseAllMonths[monthIndex].daysExpenses.reduce((prev,next)=>prev+Number(next.expenses),0);
         let AverageEverydayExpense = SummedEverydayExpenses/31;
+        let prevMonthIndex = monthIndex-1;
+        setPrevMonthIndex(prevMonthIndex)
+
+        let ThisMonthSum = ExpensesArray[monthIndex].MonthlyExpenses;
+        let PrevMonthSum = ExpensesArray[prevMonthIndex].MonthlyExpenses;
+        let Result = 100*(Math.abs(ThisMonthSum))/(PrevMonthSum===0?100:PrevMonthSum);
+        setDiffResult(Result)
+
+        let weekExpensesAll =[];
+
+
+        let filteredByMonth = expensesList.filter(element=>{
+            let month = new Date(element.date.seconds*1000).getMonth();
+            let year = new Date(element.date.seconds*1000).getFullYear()
+            return month === monthIndex && year === new Date().getFullYear()
+        }
+        )
+        for(let i=0;i<weekNames.length;i++){
+            const weekExpenses = filteredByMonth.filter(element=>{
+                let newWeekDay = new Date(element.date.seconds*1000).getDay();
+                return newWeekDay===i
+            })
+            let summed = weekExpenses.reduce((prev,next)=>prev+Number(next.amount),0)
+
+            weekExpensesAll.push({NameDay:weekNames[i], ExpensesSummed:summed })
+
+        }
+        console.log(weekExpensesAll)
+
+        
+
+
         setAverageEverydayExpenseDisplay(AverageEverydayExpense)
 }
 
@@ -224,8 +260,11 @@ function CalculateDayData(){
 useEffect(() => {
   if (dailyExpenseAllMonths.length > 0) {
     CalculateInfo();
+    CalculateDayData()
   }
-}, [dailyExpenseAllMonths, ExpensesArray]);
+}, [dailyExpenseAllMonths, ExpensesArray, monthIndex]);
+
+
 
     return(
         <>
@@ -340,7 +379,9 @@ useEffect(() => {
                 <h2>Najwięcej wydałeś: {maxDayInfo.Day} {monthNames[monthIndex]} - {maxDayInfo.Value} zł</h2>
                 <h2>Najmniej wydałeś : {minDayInfo.Day} {monthNames[monthIndex]} - {minDayInfo.Value} zł</h2>
                 <h2>Średnio dziennie wydajesz {AverageEverydayExpenseDisplay?.toFixed(2)} zł</h2>
-                <h2>To o procent mniej/więcej niż w miesiącu ...</h2>
+                <h2>To {DiffResult.toFixed(2)} % tego co wydałeś w miesiącu {monthNames[prevMonthIndex]}</h2>
+                <h2>Najwięcej wydajesz w </h2>
+                <h2>Najmniej wydajesz w </h2>
             </div>
 
             <h1 className='monthName'>{monthName}</h1>
