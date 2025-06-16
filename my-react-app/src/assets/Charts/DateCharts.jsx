@@ -28,41 +28,42 @@ function DateCharts({categoriesExpenses,expensesList}){
     const [dailyExpensesAllMonthsWithZeros, setdailyExpensesAllMonthsWithZeros] = useState([])
     const [dailyExpensesAllMonthsWithoutZeros, setdailyExpensesAllMonthsWithoutZeros] = useState([])
 
+    const [yearDate, setYearDate] = useState(new Date().getFullYear())
+    
 
 
 
-    console.log(expensesList)
         const monthNames = [
     "styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec",
     "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"
   ];
-let YearDate = new Date().getFullYear();
-
 function handlePeriodYearChange(event){
     const inputValue = event.target.value;
     switch(inputValue){
         case "Cały rok":
-            YearDate = new Date().getFullYear();
-            console.log(YearDate)
-            getYearData();
+            setYearDate(new Date().getFullYear())
+            console.log(yearDate)
             break;
         case "Poprzedni rok":
-            YearDate =  new Date().getFullYear()-1;
-            console.log(YearDate)
-            getYearData();
-            break;
+            setYearDate(new Date().getFullYear()-1)
+            console.log(yearDate)
+            break
     }
-    CalculateInfo();
+
 
 
 
 }
+useEffect(()=>{
+    getYearData()
+},[yearDate])
+
+
     function handleMonthChange(event){
         let inputValue = event.target.value
         for(let i =0;i<monthNames.length;i++){
             if(monthNames[i]===inputValue){
                 setMonthIndex(i)
-                console.log(monthIndex)
                 setMonthname(monthNames[i])
             }
 
@@ -70,13 +71,21 @@ function handlePeriodYearChange(event){
 
 
     }
-let filteredThisYearExpenses = [];
+    useEffect(()=>{
+        if(filtered.length>0){
+        getDayData()
+
+
+        }
+
+    },[monthIndex])
+let filtered=[];
 function getYearData(){
-    filteredThisYearExpenses = expensesList.filter(element=>{
+    filtered = expensesList.filter(element=>{
         const expenseDate = new Date(element.date.seconds*1000);
-        return expenseDate.getFullYear() === YearDate
+        return expenseDate.getFullYear() === yearDate;
 })
-      const monthsExpenses = filteredThisYearExpenses.map(element=>{
+    const monthsExpenses = filtered.map(element=>{
         const timestamp = element.date.seconds*1000;
         const date = new Date(Number(timestamp));
         const monthNumber = date.getMonth();
@@ -84,28 +93,34 @@ function getYearData(){
     })
 
     const TemporaryExpensesArray = []
-    console.log(monthsExpenses)
     for(let i = 0;i<monthNames.length;i++){
         let CurrentMonth = monthsExpenses.filter(element=>element.monthName === monthNames[i])
         let summedExpenses = CurrentMonth.reduce((prev, next)=>prev + next.amount, 0)
         TemporaryExpensesArray.push({Month:monthNames[i], MonthlyExpenses:summedExpenses})
     }
 
-    console.log(ExpensesArray)
     setExpensesArrayWithZeros(TemporaryExpensesArray)
     setExpensesArrayWithoutZeros(TemporaryExpensesArray.filter(element=>element.MonthlyExpenses!==0))
-    if(selected==="withZeros"){
-        setExpensesArray(TemporaryExpensesArray)
-    }
+    setExpensesArray(TemporaryExpensesArray)
+    // if(selected==="withZeros"){
+    //     setExpensesArray(TemporaryExpensesArray)
+    // }
 
   }
 
+useEffect(()=>{
+    CalculateInfo();
+
+},[ExpensesArray])
+
 let displaydata = []
+
 function getDayData(){
+
     for(let i=0; i<monthNames.length;i++){
         let dailyExpensesSingleMonthArray = []
         for(let j = 1;j<31;j++){
-            let dayFilteredExpenses = filteredThisYearExpenses.filter(element=>{
+            let dayFilteredExpenses = filtered.filter(element=>{
                 const expenseDate = new Date(Number(element.date.seconds*1000));
                 return expenseDate.getMonth() === i && expenseDate.getDate() === j
             });
@@ -118,16 +133,19 @@ function getDayData(){
         displaydata.push({month:monthNames[i], daysExpenses: dailyExpensesSingleMonthArray})
         
     }
-
-    setdailyExpensesAllMonthsWithZeros(displaydata)
-    setdailyExpensesAllMonthsWithoutZeros(displaydata.filter(element=>element[monthIndex].daysExpenses.expenses!==0))
-
-
-
+    setDailyExpenseAllMonths(displaydata)
 }
 useEffect(()=>{
-    console.log(dailyExpenseAllMonths)
-},[dailyExpenseAllMonths])
+    if(dailyExpenseAllMonths.length>0){
+        CalculateDayData()
+
+
+    }
+},[monthIndex])
+// useEffect(()=>{
+//     CalculateDayData();
+// },[dailyExpenseAllMonths])
+
 
 
       function CalculateInfo(){
@@ -145,12 +163,10 @@ useEffect(()=>{
             else if(ExpensesArray[i].MonthlyExpenses<MinValue){
                 MinValue = ExpensesArray[i].MonthlyExpenses;
                 MinMonth = ExpensesArray[i].Month;
-                console.log(minMonthInfo)
 
             }
 
 
-        console.log(maxMonthInfo)
         }
         setMaxMonthInfo({Month:MaxMonth, Value:MaxValue})
         setMinMonthInfo({Month:MinMonth, Value:MinValue})
@@ -158,12 +174,17 @@ useEffect(()=>{
         let summedMonthlyExpenses = ExpensesArray.reduce((prev,next)=>prev+Number(next.MonthlyExpenses),0);
         let averageMonthlyExpenseTemporary = Number(summedMonthlyExpenses/ExpensesArray.length);
         setAverageMonthlyExpense(averageMonthlyExpenseTemporary)
-        console.log(averageMonthlyExpense)
 
+
+
+        
+    }
+function CalculateDayData(){
         let MaxDayValue = 0;
         let MaxDay = 0;
         let MinDayValue = Infinity;
         let MinDay = 0;
+
 
         for(let i=0; i<dailyExpenseAllMonths[monthIndex].daysExpenses.length;i++){
             if(dailyExpenseAllMonths[monthIndex].daysExpenses[i].expenses>MaxDayValue){
@@ -185,8 +206,7 @@ useEffect(()=>{
         let SummedEverydayExpenses = dailyExpenseAllMonths[monthIndex].daysExpenses.reduce((prev,next)=>prev+Number(next.expenses),0);
         let AverageEverydayExpense = SummedEverydayExpenses/31;
         setAverageEverydayExpenseDisplay(AverageEverydayExpense)
-        
-    }
+}
 
 
       const COLORS = [
@@ -198,12 +218,7 @@ useEffect(()=>{
 
   useEffect(()=>{
     getYearData();
-    if(displaydata.length>0){
-    getDayData();
 
-
-    }
-    console.log(dailyExpensesAllMonthsWithoutZeros)
   },[expensesList])
   
 useEffect(() => {
@@ -218,12 +233,11 @@ useEffect(() => {
             <div className='ChartsContainer'></div>
             <div className='DateExpenses'>
                 <select name="" id="" onChange={event=>handlePeriodYearChange(event)}  className='YearSelect'>
-                    <option value="">Wybierz okres</option>
-                    <option value="Cały rok">Ten rok</option>
+                    <option value="Cały rok" selected>Ten rok</option>
                     <option value="Poprzedni rok">Poprzedni rok</option>
 
                 </select>
-            <h1 className='year'>{year}</h1>
+            <h1 className='year'>{yearDate}</h1>
 
 
             <div className='StickChart'>
@@ -289,11 +303,7 @@ useEffect(() => {
                             onChange={() => {
                                 setSelected("withZeros");
                                 setExpensesArray(ExpensesArrayWithZeros);
-                                {if(dailyExpensesAllMonthsWithZeros.length>0){
-                                        setDailyExpenseAllMonths(dailyExpensesAllMonthsWithZeros)
 
-
-                                }}
                             }}
                             />
                             <label htmlFor="firstRadio">Uwzględniaj okresy bez wydatków</label>
@@ -308,13 +318,8 @@ useEffect(() => {
                             onChange={() => {
                                 setSelected("withoutZeros");
                                 setExpensesArray(ExpensesArrayWithoutZeros);
-                                {if(dailyExpensesAllMonthsWithoutZeros.length>0){
-                                        setDailyExpenseAllMonths(dailyExpensesAllMonthsWithoutZeros)
 
-
-                                }}
-
-                                
+       
 
                             }}
                             />
