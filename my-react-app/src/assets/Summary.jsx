@@ -104,10 +104,13 @@ function Summary({user, setCategoriesExpenses, expensesList,setExpenseSum,expens
                             Zwierzęta:Pets,
                             Inne:others
         })
-        setCategoriesExpenses(SummaryExpenses)
 
 
     }
+    useEffect(()=>{
+        setCategoriesExpenses(SummaryExpenses)
+
+    },[SummaryExpenses])
 
     function BiggestExpenses(){
         let maxCategory='';
@@ -124,7 +127,7 @@ function Summary({user, setCategoriesExpenses, expensesList,setExpenseSum,expens
     useEffect(()=>{
         CalculateExpenses();
 
-    },[displayedExpensesList, user, SummaryExpenses])
+    },[displayedExpensesList, user])
     const biggest = BiggestExpenses();
 
 

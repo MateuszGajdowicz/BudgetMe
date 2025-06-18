@@ -31,6 +31,8 @@ function DateCharts({categoriesExpenses,expensesList}){
     const [prevMonthSumState, setPrevMonthSumState] = useState(0)
 
     const [DiffResult, setDiffResult] = useState(0)
+
+    const [WeekDayInfo, setWeekDayInfo] = useState({MinValue:0,MinName:"", MaxValue:0,MaxName:""})
     
 
 
@@ -206,24 +208,25 @@ function CalculateDayData(){
         setMaxDayinfo({Day:MaxDay, Value:MaxDayValue});
         setMinDayinfo({Day:MinDay, Value:MinDayValue})
 
-
+        console.log(ExpensesArray)
         let SummedEverydayExpenses = dailyExpenseAllMonths[monthIndex].daysExpenses.reduce((prev,next)=>prev+Number(next.expenses),0);
         let AverageEverydayExpense = SummedEverydayExpenses/31;
+        setAverageEverydayExpenseDisplay(AverageEverydayExpense)
+
         let prevMonthIndex = monthIndex-1;
         setPrevMonthIndex(prevMonthIndex)
 
-        let ThisMonthSum = ExpensesArray[monthIndex].MonthlyExpenses;
-        let PrevMonthSum = ExpensesArray[prevMonthIndex].MonthlyExpenses;
+        let ThisMonthSum = ExpensesArray[monthIndex]?.MonthlyExpenses || 0;
+        let PrevMonthSum = ExpensesArray[prevMonthIndex]?.MonthlyExpenses ||0;
         let Result = 100*(Math.abs(ThisMonthSum))/(PrevMonthSum===0?100:PrevMonthSum);
         setDiffResult(Result)
 
         let weekExpensesAll =[];
 
-
         let filteredByMonth = expensesList.filter(element=>{
             let month = new Date(element.date.seconds*1000).getMonth();
             let year = new Date(element.date.seconds*1000).getFullYear()
-            return month === monthIndex && year === new Date().getFullYear()
+            return month === monthIndex && year === yearDate
         }
         )
         for(let i=0;i<weekNames.length;i++){
@@ -236,20 +239,45 @@ function CalculateDayData(){
             weekExpensesAll.push({NameDay:weekNames[i], ExpensesSummed:summed })
 
         }
-        console.log(weekExpensesAll)
+            let MinValue = Infinity;
+            let MinName = "";
+            let MaxValue = 0;
+            let MaxName = " ";
+            for(let i=0;i<weekExpensesAll.length;i++){
+                if(weekExpensesAll[i].ExpensesSummed>MaxValue){
+                    MaxValue = weekExpensesAll[i].ExpensesSummed
+                    MaxName = weekExpensesAll[i].NameDay;
+
+                }
+                else if(weekExpensesAll[i].ExpensesSummed<MinValue){
+                    MinValue = weekExpensesAll[i].ExpensesSummed;
+                    MinName = weekExpensesAll[i].NameDay;
+                }
+
+    }
+    setWeekDayInfo({MinValue:MinValue,MinName:MinName,MaxValue:MaxValue,MaxName:MaxName})
 
         
 
 
-        setAverageEverydayExpenseDisplay(AverageEverydayExpense)
+        
+        
 }
+function CalculateDayWeek(){
 
+
+}
 
       const COLORS = [
         "#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#87cefa", "#da70d6",
         "#32cd32", "#ff69b4", "#ba55d3", "#cd5c5c", "#ffa07a", "#20b2aa"
     ];
 
+    useEffect(()=>{
+        console.log(AverageEverydayExpenseDisplay)
+        CalculateDayWeek();
+
+    },[averageMonthlyExpense])
 
 
   useEffect(()=>{
@@ -262,7 +290,7 @@ useEffect(() => {
     CalculateInfo();
     CalculateDayData()
   }
-}, [dailyExpenseAllMonths, ExpensesArray, monthIndex]);
+}, [dailyExpenseAllMonths, ExpensesArray, monthIndex,selected]);
 
 
 
@@ -378,10 +406,10 @@ useEffect(() => {
             <div className='SecondInfoContainer'>
                 <h2>Najwięcej wydałeś: {maxDayInfo.Day} {monthNames[monthIndex]} - {maxDayInfo.Value} zł</h2>
                 <h2>Najmniej wydałeś : {minDayInfo.Day} {monthNames[monthIndex]} - {minDayInfo.Value} zł</h2>
-                <h2>Średnio dziennie wydajesz {AverageEverydayExpenseDisplay?.toFixed(2)} zł</h2>
+                <h2>Średnio dziennie wydajesz {AverageEverydayExpenseDisplay.toFixed(2)} zł</h2>
                 <h2>To {DiffResult.toFixed(2)} % tego co wydałeś w miesiącu {monthNames[prevMonthIndex]}</h2>
-                <h2>Najwięcej wydajesz w </h2>
-                <h2>Najmniej wydajesz w </h2>
+                <h2>Najwięcej wydajesz w {WeekDayInfo.MaxName} - {WeekDayInfo.MaxValue} zł</h2>
+                <h2>Najmniej wydajesz w {WeekDayInfo.MinName} - {WeekDayInfo.MinValue} zł </h2>
             </div>
 
             <h1 className='monthName'>{monthName}</h1>

@@ -24,9 +24,9 @@ function App() {
   const [displayedExpensesList, setDisplayedExpensesList] = useState(expensesList)
 
   const [isExpensesPageVisible, setIsExpensesPageVisible] = useState(false)
-  const [isMainPagevisible, setIsMainPageVisible] =useState(false)
+  const [isMainPagevisible, setIsMainPageVisible] =useState(true)
   const [isBudgetPageVisible, setIsBudgetPageVisible] = useState(false)
-  const [isChartsPageVisible, setIsChartsPageVisible] = useState(true)
+  const [isChartsPageVisible, setIsChartsPageVisible] = useState(false)
 
 
   const [budget, setBudget] = useState(0)
