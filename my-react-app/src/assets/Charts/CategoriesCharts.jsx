@@ -139,7 +139,7 @@ const COLORS = [
 
             </div>
             <div className='SpiderChart'>
-                <ResponsiveContainer width={600} >
+                <ResponsiveContainer  >
                     <RadarChart cx="50%" cy="50%" outerRadius="50%" data={categoriesExpensesChart}>
                     <PolarGrid />
                     <PolarAngleAxis dataKey="expenseCategory" />

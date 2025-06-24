@@ -149,8 +149,6 @@ function getDayData(){
 
 }
 
-useEffect(()=>{
-console.log(dailyExpenseAllMonths)},[dailyExpenseAllMonths,monthIndex])
 
 
 
@@ -263,10 +261,6 @@ function CalculateDayData(){
         
         
 }
-function CalculateDayWeek(){
-
-
-}
 
       const COLORS = [
         "#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#87cefa", "#da70d6",
@@ -275,7 +269,6 @@ function CalculateDayWeek(){
 
     useEffect(()=>{
         console.log(AverageEverydayExpenseDisplay)
-        CalculateDayWeek();
 
     },[averageMonthlyExpense])
 
@@ -292,7 +285,7 @@ useEffect(() => {
   }
 }, [dailyExpenseAllMonths, ExpensesArray, monthIndex,selected]);
 
-
+console.log(window.innerWidth)
 
     return(
         <>
@@ -308,7 +301,7 @@ useEffect(() => {
 
 
             <div className='StickChart'>
-                <ResponsiveContainer>
+                <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={ExpensesArray}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey="Month"/>
@@ -323,9 +316,8 @@ useEffect(() => {
                 </ResponsiveContainer>
 
             </div>
-            <div className='DateChart' style={{top:"50%"}}>
+            <div className='StickChartTwo' >
                     {dailyExpenseAllMonths[monthIndex] && (
-            <div className='StickChart' style={{top:"60%"}}>
                 <ResponsiveContainer>
                 <BarChart data={dailyExpenseAllMonths[monthIndex].daysExpenses}>
                     <CartesianGrid strokeDasharray="3 3"/>
@@ -339,7 +331,6 @@ useEffect(() => {
                     </Bar>
                 </BarChart>
                 </ResponsiveContainer>
-            </div>
 )}
 
             </div>
@@ -412,7 +403,7 @@ useEffect(() => {
                 <h2>Najmniej wydajesz w {WeekDayInfo.MinName} - {WeekDayInfo.MinValue} zł </h2>
             </div>
 
-            <h1 className='monthName'>{monthName}</h1>
+            <h1 className='monthName'>{monthName.charAt(0).toUpperCase()+ monthName.slice(1)}</h1>
 
 
         </div>
