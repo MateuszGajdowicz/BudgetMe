@@ -9,7 +9,7 @@ body, html, #root {
     height: 90%;
     background-color: hsl(19, 84%, 92%);
     left: 5%;
-    top: 100%;
+    top: 110%;
     padding: 20px;
     display: flex;
     gap:30px;
@@ -21,14 +21,16 @@ body, html, #root {
         width: 55%;
         height: 40%;
         top: 60px;
+        max-width: 50%;
     
     
 }
     .StickChartTwo{
         position: absolute;
-        width: 55%;
+        width: 50%;
         height: 40%;
-        top:60%
+        top:60%;
+        
 
     }
     .InfoContainer{
@@ -40,6 +42,7 @@ body, html, #root {
         background-color: hsl(34, 78%, 84%);
         border-radius: 40px;
         padding: 10px;
+        max-width: 50%;
 
         }
         
@@ -74,7 +77,7 @@ body, html, #root {
 }
 .SecondInfoContainer{
         position: absolute;
-        right: 30px;
+        right: 1%;
         width: auto;
         height: auto;
         padding-left: 20px;
