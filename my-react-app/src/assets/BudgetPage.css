@@ -1,5 +1,5 @@
 .CategoriesBudgetContainer{
-    display: grid;
+  display: grid;
   grid-template-columns: repeat(4, 1fr); /* 3 kolumny */
   grid-template-rows: repeat(3, 1fr);    /* 3 wiersze */
   gap: 10px; /* odstęp między elementami */
@@ -12,6 +12,14 @@
     background-color: hsl(13, 84%, 77%);
     border-radius: 30px;
     border: 5px solid white;
+    padding: 10px;
+    input{
+      border-radius: 10px;
+    }
+    button{
+      border-radius: 10px;
+      margin-top: 10px;
+    }
     h2{
         padding-left: 10px;
     }
@@ -25,4 +33,32 @@
     bottom: 5%;
     background-color: wheat;
     left: 5%;
+}
+@media(max-width:700px){
+  .CategoriesBudgetContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    right:37%;
+    width: 50%;
+    top: 50%;
+    .SingleCategoryBudgetContainer{
+      width: auto;
+      font-size: 1.2em;
+    }
+  }
+}
+@media(max-width:1400px){
+  .CategoriesBudgetContainer{
+    right: 5%;
+    top: 65%;
+    width: 90%;
+    .SingleCategoryBudgetContainer{
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
 }

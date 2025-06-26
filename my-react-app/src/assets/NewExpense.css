@@ -32,7 +32,8 @@
 
 }
 @media (min-width:1920px) {
-    .AddExpenseContainer{
+    .expensesPage .AddExpenseContainer{
+        left: 5% !important;
         font-size: 1.3em;
         input, select{
             height: 40px;
@@ -57,5 +58,5 @@
 /*W podstronie*/
 
 .expensesPage .AddExpenseContainer{
-    left: 9%;
+    left: 6%;
 }

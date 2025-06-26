@@ -6,8 +6,8 @@
     display: flex;
     flex-direction: column;
     gap:20px;
-    top: 10%;
-    height: 100%;
+    top: 15%;
+    height: 95%;
     align-items: center;
 
     
@@ -16,11 +16,13 @@
 #filterSelect{
         height: 15%;
         max-height: 30px;
-        width: 40%;
+        width: 10%;
         border-radius: 10px;
         border: 5px solid hsl(19, 84%, 72%);
         left: 30%;
         position: relative;
+        top: 10%;
+        left: 41%;
     }
 .SingleExpenseContainer{
     background-color: white;
@@ -34,11 +36,12 @@
 
     button{
         position: absolute;
-        right: 15%;
-        top: 40%;
+        right: 10%;
+        top: 35%;
         padding: 15px;
         border-radius: 15px;
         cursor: pointer;
+        font-size: 1.5em;
     }
 
 }
@@ -62,4 +65,17 @@
     }
     
 }
+@media(max-width:1400px){
+    .SingleExpenseContainer{
+        button{
+            right: 3%;
+            top: 8%;
+            font-size: 1em;
+        }
+    }
+}
 /*W podstronie*/ 
+.expensesPage .ExpensesContainer{
+    top: 10%;
+    height: 85% !important;
+}

@@ -123,14 +123,15 @@ function NaviagetToChartsPage(){
     setIsChartsPageVisible(true)
 
 }
-
-const [isLargeScreen, setIsLargeScreen] = useState()
-useEffect(()=>{
-  function CheckSize(){
+function CheckSize(){
       const isBigScreen = window.matchMedia("(min-width:1000px)").matches;
       setDisplayNavBar(isBigScreen)
 
   }
+const [isLargeScreen, setIsLargeScreen] = useState()
+useEffect(()=>{
+  CheckSize();
+
   window.addEventListener("resize",CheckSize)
 
 
@@ -161,7 +162,7 @@ useEffect(()=>{
                 <>
 
     
-    <NavBar setDisplayNavBar={setDisplayNavBar} displayNavBar={displayNavBar} NavigateToMainPage={NavigateToMainPage} NavigateToExpensesPage={NavigateToExpensesPage} NaviagteToBudgetPage={NaviagteToBudgetPage} NaviagetToChartsPage={NaviagetToChartsPage} LogOut={LogOut} />
+    <NavBar CheckSize={CheckSize} setDisplayNavBar={setDisplayNavBar} displayNavBar={displayNavBar} NavigateToMainPage={NavigateToMainPage} NavigateToExpensesPage={NavigateToExpensesPage} NaviagteToBudgetPage={NaviagteToBudgetPage} NaviagetToChartsPage={NaviagetToChartsPage} LogOut={LogOut} />
           
     <h1 id="Options" onClick={()=>setDisplayNavBar(true)} >...</h1>
    

@@ -124,7 +124,6 @@ const [SingleBudgetInfo, setSingleBudgetInfo] = useState([])
             </div>
           ))}
         </div>
-        <button className='SplitButton'>Podziel równo</button>
 
       </div>
     </>

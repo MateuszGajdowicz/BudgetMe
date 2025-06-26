@@ -15,7 +15,9 @@ function DisplayExpense({expensesList, setExpensesList,DeleteExpense,displayedEx
         }
 
     },[displayedExpensesList])
-
+    useEffect(()=>{
+        setDisplayedExpensesList(expensesList.sort((a,b)=>b.date-a.date))
+    },[expensesList])
 
     const CurrentTime = new Date()
     const LastWeekDate = new Date();
