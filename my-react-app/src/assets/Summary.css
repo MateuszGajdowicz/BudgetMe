@@ -24,15 +24,15 @@
     }
     
 }
-@media (max-width:700px){
+@media (max-width:1000px){
     .SummaryContainer{
         position: absolute;
         width: 70%;
-        left: 6%;
+        left: 8%;
         height: 800px;
         margin: 20px;
         margin-top: 50px;
-        top: 150%;
+        top: 155%;
     }
 
 
@@ -49,12 +49,21 @@
     width:25%;
     
 }
-@media (max-width:700px) {
+.expensesPage .ExpensesContainer{
+    height: 85%;
+}
+
+@media (max-width:1000px) {
     .expensesPage .SummaryContainer{
         width: 70%;
         left: 7%;
+        top: 400%;
         
         
+    }
+    .expensesPage .ExpensesContainer{
+        overflow: scroll;
+        height: 20%;
     }
     
 }

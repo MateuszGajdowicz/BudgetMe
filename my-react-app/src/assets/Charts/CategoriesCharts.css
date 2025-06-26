@@ -39,7 +39,7 @@
         right: 10px;
         top: 5%;
         width: 30%;
-        height: 90%;
+        height: 65%;
         padding-left: 20px;
         bottom: 20%;
         border: 7px solid white;
@@ -73,9 +73,9 @@
 
 
 }
-@media (max-width:800px){
+@media (max-width:950px){
     .CategoryExpensesChart{
-        left: 2%;
+        left: 3%;
         height: 200%;
         .StickChart{
             position: absolute;
@@ -87,19 +87,31 @@
             top: 20% !important;
             left: 50% !important;
             transform: translateX(-50%);
+
         }
         .SpiderChart{
             position: absolute;
-            top: 38%;
-            left: 8%;
+            top: 40%;
+            left: 8% !important;
             height: 40%;
-            width: 90%;
+            width: 90% !important
         }
         .statsContainer{
             width: 90%;
-            top: 70%;
-            height: 25%;
+            top: 72%;
+            height: 22%;
             left: 2%;
+        }
+    }
+}
+@media (max-width:1400px){
+    .CategoryExpensesChart{
+        .statsContainer{
+            font-size: 0.8em;
+        }
+        .SpiderChart{
+            width: 30%;
+            left: 35%;
         }
     }
 }

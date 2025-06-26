@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useDebugValue } from "react";
 import { auth, db } from "./firebase";
 import "./App.css"
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -14,6 +14,7 @@ import GoalBudget from "./assets/GoalBudget";
 import ExpensesPage from "./assets/ExpensesPage";
 import BudgetPage from "./assets/BudgetPage";
 import ChartsPanel from "./assets/Charts/ChartsPanel";
+import NavBar from "./assets/NavBar";
 function App() {
   const [isRegistered, setIsRegistered] = useState(true)
   const [isLogged, setIsLogged]=useState(true)
@@ -28,6 +29,7 @@ function App() {
   const [isBudgetPageVisible, setIsBudgetPageVisible] = useState(false)
   const [isChartsPageVisible, setIsChartsPageVisible] = useState(false)
 
+  const [displayNavBar, setDisplayNavBar] = useState(false)
 
   const [budget, setBudget] = useState(0)
   const [categoriesExpenses, setCategoriesExpenses] = useState({})
@@ -122,9 +124,25 @@ function NaviagetToChartsPage(){
 
 }
 
+const [isLargeScreen, setIsLargeScreen] = useState()
+useEffect(()=>{
+  function CheckSize(){
+      const isBigScreen = window.matchMedia("(min-width:1000px)").matches;
+      setDisplayNavBar(isBigScreen)
+
+  }
+  window.addEventListener("resize",CheckSize)
+
+
+},[])
 
   return (
     <>
+    {
+      displayNavBar&&
+          <div onClick={()=>setDisplayNavBar(false)} className="OverLay"></div>
+
+    }
 
       {
         !isLogged ? (
@@ -141,20 +159,12 @@ function NaviagetToChartsPage(){
             {
               user && (
                 <>
-  <nav>
-      <ul>
-        <li id="BudgetMe">BudgetMe</li>
-        <li onClick={NavigateToMainPage}>Strona główna</li>
-        <li onClick={NavigateToExpensesPage}>Wydatki</li>
-        <li onClick={NaviagteToBudgetPage}>Budżet</li>
-        <li>Cele</li>
-        <li onClick={NaviagetToChartsPage}>Statystyki</li>
-        <li>Ustawienia</li>
-        <li>Profil</li>
-        <li onClick={LogOut}>Wyloguj</li>
-      </ul>
-    </nav>
-    <h1 id="Options">...</h1>
+
+    
+    <NavBar setDisplayNavBar={setDisplayNavBar} displayNavBar={displayNavBar} NavigateToMainPage={NavigateToMainPage} NavigateToExpensesPage={NavigateToExpensesPage} NaviagteToBudgetPage={NaviagteToBudgetPage} NaviagetToChartsPage={NaviagetToChartsPage} LogOut={LogOut} />
+          
+    <h1 id="Options" onClick={()=>setDisplayNavBar(true)} >...</h1>
+   
 
 
                 {isMainPagevisible &&

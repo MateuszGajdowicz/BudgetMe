@@ -69,9 +69,7 @@ function DisplayExpense({expensesList, setExpensesList,DeleteExpense,displayedEx
 
     return(
         <>
-
-        <div className="ExpensesContainer">
-        <select onChange={handleDateFilter} name="" id="">
+        <select onChange={handleDateFilter} name="" id="filterSelect">
             <option value="All">Wszystkie</option>
             <option value="LastWeek">Ostatni tydzień</option>
             <option value="LastMonth">Ostatni miesiąc</option>
@@ -79,6 +77,9 @@ function DisplayExpense({expensesList, setExpensesList,DeleteExpense,displayedEx
 
 
         </select>
+
+        <div className="ExpensesContainer">
+
     
 
         {isListDisplayed?

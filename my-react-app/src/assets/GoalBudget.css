@@ -39,13 +39,13 @@ progress::-webkit-progress-value {
   border-radius: 10px;
 }
 
-@media (max-width:700px) {
+@media (max-width:1000px) {
   .GoalBudgetContainer{
     position: absolute;
     width: 70%;
     left: 10%;
     margin-bottom: 50px;
-    top: 280%;
+    top: 300%;
   }
   
 }

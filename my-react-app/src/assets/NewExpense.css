@@ -41,7 +41,7 @@
     }
 
 }
-@media (max-width:700px) {
+@media (max-width:1000px) {
     .AddExpenseContainer{
         position:relative;
         width: 70%;
@@ -49,7 +49,7 @@
         left: auto;
         top: auto;
         margin: 20px;
-        left: 7%;
+        left: 9%;
     }
     
 }
@@ -57,5 +57,5 @@
 /*W podstronie*/
 
 .expensesPage .AddExpenseContainer{
-    left: 5%;
+    left: 9%;
 }

@@ -2,10 +2,12 @@
     position: absolute;
     top: 10%;
     height: auto;
+    max-height: 50%;
     width: 25%;
     min-height: 30%;
     display: flex;
     flex-direction: column;
+    font-size: 0.8em;
 
     background-color: hsl(19, 84%, 82%);
     right:8%;
@@ -16,6 +18,8 @@
 
     p{
         cursor:pointer;
+        margin: 0px;
+        
     }
     
 
@@ -26,13 +30,14 @@
     }
     
 }
-@media (max-width:700px){
+@media (max-width:1000px){
     .BudgetContainer{
         height: auto;
         width:70% ;
         position: relative;
         left:10%;
         margin-bottom: 200px;
+        top: 220%;
     }
 
 

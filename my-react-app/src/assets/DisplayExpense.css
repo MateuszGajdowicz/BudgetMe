@@ -9,16 +9,19 @@
     top: 10%;
     height: 100%;
     align-items: center;
-    select{
+
+    
+
+}
+#filterSelect{
         height: 15%;
         max-height: 30px;
         width: 40%;
         border-radius: 10px;
         border: 5px solid hsl(19, 84%, 72%);
+        left: 30%;
+        position: relative;
     }
-    
-
-}
 .SingleExpenseContainer{
     background-color: white;
     width: 90%;
@@ -43,7 +46,7 @@
     display: none;
   }
 
-@media (max-width:700px) {
+@media (max-width:1000px) {
     .ExpensesContainer{
         width: 80%;
         position: relative;
@@ -51,6 +54,12 @@
         margin: 20px;
         left:6%;
     }
+    .expensesPage .ExpensesContainer{
+        overflow: scroll;
+        height: 10%;
+
+
+    }
     
 }
-/*W podstronie*/
+/*W podstronie*/ 
