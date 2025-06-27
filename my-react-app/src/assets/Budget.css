@@ -31,11 +31,11 @@
 @media (max-width:1000px){
     .BudgetContainer{
         height: auto;
-        width:50% ;
+        width:70% ;
         position: relative;
         left:10%;
         margin-bottom: 200px;
-        top: 220%;
+        top: 190%;
     }
     .BudgetPage .BudgetContainer{
         width: 70% !important;

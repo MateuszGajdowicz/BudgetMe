@@ -32,12 +32,16 @@
         height: 800px;
         margin: 20px;
         margin-top: 50px;
-        top: 155%;
+        top: 130%;
     }
 
 
 }
-
+@media(max-width:700px){
+    .SummaryContainer{
+        top: 150%;
+    }
+}
 
 
 /* W podstronie*/

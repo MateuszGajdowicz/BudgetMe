@@ -17,7 +17,7 @@ import ChartsPanel from "./assets/Charts/ChartsPanel";
 import NavBar from "./assets/NavBar";
 function App() {
   const [isRegistered, setIsRegistered] = useState(true)
-  const [isLogged, setIsLogged]=useState(true)
+  const [isLogged, setIsLogged]=useState(false)
   const [expensesList, setExpensesList] = useState([])
   const [user,setUser] = useState(null)
   const [expenseSum, setExpenseSum] = useState(0);
